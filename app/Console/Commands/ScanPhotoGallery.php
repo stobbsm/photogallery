@@ -32,7 +32,8 @@ class ScanPhotoGallery extends Command
         try {
           if(env('GALLERYPATH', false)) {
             $this->filebrowser = resolve('FileBrowser');
-            print_r($this->filebrowser->flatten(false));
+            $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'));
+            print_r($this->filebrowser->Flatten(false, $mediaFiles));
           } else {
             throw new \Exception("You must set GALLERYPATH in your env", E_NOTICE);
           }
