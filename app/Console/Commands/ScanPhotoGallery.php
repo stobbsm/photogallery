@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Providers\FileBrowserServiceProvider;
+use App\File;
 
 class ScanPhotoGallery extends Command
 {
@@ -32,8 +33,18 @@ class ScanPhotoGallery extends Command
         try {
           if(env('GALLERYPATH', false)) {
             $this->filebrowser = resolve('FileBrowser');
-            $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'));
-            print_r($this->filebrowser->Flatten(false, $mediaFiles));
+            $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'))->Flatten(false)->get();
+            printf("Adding new files to database\n");
+            foreach($mediaFiles as $file) {
+              $newfile = File::firstOrNew([
+                'filename' => $file['name'],
+                'fullpath' => $file['fullpath'],
+                'filetype' => $file['filetype'],
+                'mimetype' => $file['mimetype'],
+                'size' => $file['size']
+              ]);
+              $newfile->save();
+            }
           } else {
             throw new \Exception("You must set GALLERYPATH in your env", E_NOTICE);
           }
