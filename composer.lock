@@ -992,12 +992,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stobbsm/filebrowser.git",
-                "reference": "028944184270d863ccd66f4e7eab36755430bdfa"
+                "reference": "dad936578e7792c187ceef3ed647e698fab72b9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stobbsm/filebrowser/zipball/028944184270d863ccd66f4e7eab36755430bdfa",
-                "reference": "028944184270d863ccd66f4e7eab36755430bdfa",
+                "url": "https://api.github.com/repos/stobbsm/filebrowser/zipball/dad936578e7792c187ceef3ed647e698fab72b9d",
+                "reference": "dad936578e7792c187ceef3ed647e698fab72b9d",
                 "shasum": ""
             },
             "require": {
@@ -1024,7 +1024,7 @@
             ],
             "description": "Search a given directory path and return an array containing the data.",
             "homepage": "https://github.com/stobbsm/filebrowser",
-            "time": "2017-07-04 14:17:25"
+            "time": "2017-07-13 03:17:44"
         },
         {
             "name": "swiftmailer/swiftmailer",
