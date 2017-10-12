@@ -18,3 +18,8 @@ Route::get('/', function () {
 Route::get('/scangallery', function () {
   return view('scanfiles');
 });
+
+Route::get('/showgallery', function () {
+  $media = App\File::all();
+  return view('gallery.images', ["media" => $media]);
+});

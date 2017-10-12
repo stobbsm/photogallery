@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Verifying files in database</title>
+  <title>PhotoGallery - @lang('scanfiles.verifying')</title>
 </head>
 <body>
-  <h2>Verifying files in database</h2>
+  <h2>@lang('scanfiles.verifying')</h2>
   <div>
     @php
       Artisan::call('photogallery:scan');

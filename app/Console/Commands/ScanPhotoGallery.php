@@ -29,12 +29,12 @@ class ScanPhotoGallery extends Command
      */
     public function handle()
     {
-        printf("Scanning the photo library...\n");
+        printf(__('scanfiles.scanning') . "\n");
         try {
           if(env('GALLERYPATH', false)) {
             $this->filebrowser = resolve('FileBrowser');
             $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'))->Flatten(false)->get();
-            printf("Adding new files to database\n");
+            printf(__('scanfiles.adding') . "\n");
             foreach($mediaFiles as $file) {
               $newfile = File::firstOrNew([
                 'filename' => $file['name'],
@@ -46,10 +46,10 @@ class ScanPhotoGallery extends Command
               $newfile->save();
             }
           } else {
-            throw new \Exception("You must set GALLERYPATH in your env", E_NOTICE);
+            throw new \Exception(__('scanfiles.galleryerror'), E_NOTICE);
           }
         } catch (\Exception $e) {
-          printf("Scan failed: %s\n", $e->getMessage());
+          printf(__('scanfiles.scanerror', [ "message" => $e->getMessage() ]));
           exit($e->getCode());
         }
 

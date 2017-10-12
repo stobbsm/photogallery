@@ -13,4 +13,12 @@ class File extends Model
     public function tags() {
       return $this->belongsToMany('App\Tag');
     }
+
+    public function loadData() {
+      $handle = fopen($this->fullpath, "rb");
+      $contents = fread($handle, $this->size);
+      fclose($handle);
+
+      return $contents;
+    }
 }
