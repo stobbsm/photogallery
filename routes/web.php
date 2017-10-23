@@ -23,3 +23,9 @@ Route::get('/showgallery', function () {
   $media = App\File::all();
   return view('gallery.images', ["media" => $media]);
 });
+
+Route::get('/image/{id}', function ($id) {
+  $image = App\File::find($id);
+  return response($image->getContents())->
+            header('Content-Type', $image->mimetype);
+});

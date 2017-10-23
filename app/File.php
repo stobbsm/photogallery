@@ -15,10 +15,17 @@ class File extends Model
     }
 
     public function loadData() {
-      $handle = fopen($this->fullpath, "rb");
-      $contents = fread($handle, $this->size);
-      fclose($handle);
+      $base64_img_contents = base64_encode($this->getContents());
 
-      return $contents;
+      return $base64_img_contents;
+    }
+
+    public function getContents() {
+      return file_get_contents($this->fullpath);
+    }
+
+    public function thumbNail() {
+      $file_contents = $this->getContents();
+      $b64_image = base64_encode($file_contents);
     }
 }
