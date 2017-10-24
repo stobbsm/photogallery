@@ -29,3 +29,11 @@ Route::get('/image/{id}', function ($id) {
   return response($image->getContents())->
             header('Content-Type', $image->mimetype);
 });
+
+Route::get('/image/thumbnail/{id}', function ($id) {
+  $image = App\File::find($id);
+  if($image->size > 0) {
+    return response($image->thumbnail())->
+              header('Content-Type', $image->mimetype);
+  }
+});

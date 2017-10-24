@@ -10,8 +10,8 @@ class ScanPhotoGallery extends Command
 {
     /**
      * The name and signature of the console command.
-     *
      * @var string
+     *
      */
     protected $signature = 'photogallery:scan';
 
@@ -41,7 +41,8 @@ class ScanPhotoGallery extends Command
                 'fullpath' => $file['fullpath'],
                 'filetype' => $file['filetype'],
                 'mimetype' => $file['mimetype'],
-                'size' => $file['size']
+                'size' => $file['size'],
+                'checksum' => hash_file('sha256', $file['fullpath'])
               ]);
               $newfile->save();
             }

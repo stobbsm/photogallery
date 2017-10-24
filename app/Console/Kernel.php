@@ -14,7 +14,10 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\PhotoGallery::class,
-        Commands\ScanPhotoGallery::class
+        Commands\ScanPhotoGallery::class,
+        Commands\UpdateChecksum::class,
+        Commands\VerifyDatabase::class,
+        Commands\GenerateThumbnails::class
     ];
 
     /**
