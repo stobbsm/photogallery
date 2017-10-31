@@ -42,12 +42,10 @@ class VerifyDatabase extends Command
         foreach ($files as $file) {
             if (file_exists($file->fullpath)) {
                 printf("Verfying file: %s\n", $file->fullpath);
-                $hash = hash_file('sha256', $file->fullpath);
-                if ($hash != $file->checksum) {
-                    printf("Updating hash...\n");
-                    $file->checksum = $hash;
-                    $file->save();
-                }
+                $this->call('photogallery:updatechecksum', [ "id" => $file->id ]);
+            } else {
+                printf("Can't find file: %s\n", $file->fullpath);
+                $file->delete();
             }
         }
     }

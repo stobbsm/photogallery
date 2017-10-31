@@ -85,7 +85,10 @@ class GenerateThumbnails extends Command
                 break;
             }
             try {
-                $original = $image_create_func($file->fullpath);
+                $original = @$image_create_func($file->fullpath);
+                if (!$original) {
+                    $original = imagecreatefromstring(file_get_contents($file->fullpath));
+                }
                 $tmp = imagecreatetruecolor($new_width, $new_height);
                 imagecopyresampled($tmp, $original, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 

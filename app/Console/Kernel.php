@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
         Commands\ScanPhotoGallery::class,
         Commands\UpdateChecksum::class,
         Commands\VerifyDatabase::class,
-        Commands\GenerateThumbnails::class
+        Commands\GenerateThumbnails::class,
+        Commands\CleanAll::class
     ];
 
     /**
@@ -30,6 +31,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('photogallery:verifydatabase')
+                    ->hourly();
     }
 
     /**
