@@ -5,14 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>PhotoGallery - @lang('scanfiles.verifying')</title>
+  <title>PhotoGallery - @lang('cmdline.verifying')</title>
 </head>
 <body>
-  <h2>@lang('scanfiles.verifying')</h2>
-  <div>
+  <h2>@lang('cmdline.verifying')</h2>
+  <pre>
     @php
       Artisan::call('photogallery:scan');
     @endphp
-  </div>
+  </pre>
 </body>
 </html>

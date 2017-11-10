@@ -36,12 +36,19 @@ class ScanPhotoGallery extends Command
                 $this->filebrowser = resolve('FileBrowser');
                 $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'))->Flatten(false)->get();
                 printf(__('cmdline.adding') . "\n");
-                
+
                 foreach ($mediaFiles as $file) {
                     $filehash = hash_file('sha256', $file['fullpath']);
 
                     try {
-                        $oldfile = File::where('checksum', $filehash)->firstOrFail();
+                        printf("Checking for existence of file in database: %s\n", $file['name']);
+                        printf("Hash of file: %s\n", $filehash);
+                        $oldfile = File::where('checksum', $filehash)->first();
+
+                        if ($oldfile == null) {
+                            throw new \Exception("File doesn't exist in the database.\n", E_NOTICE);
+                        }
+
                         // Compare and update the database where needed.
                         if ($oldfile->filename != $file['name']) {
                             $fileDifference = true;
@@ -82,20 +89,22 @@ class ScanPhotoGallery extends Command
                                 printf("Skipping updates...\n");
                             }
                         }
-                    } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                    } catch (\Exception $e) {
+                        printf("Exception encountered: %s\n", $e->getMessage());
+
                         $newfile = File::firstOrNew([
                           'filename' => $file['name'],
                           'fullpath' => $file['fullpath'],
                           'filetype' => $file['filetype'],
                           'mimetype' => $file['mimetype'],
                           'size' => $file['size'],
-                          'checksum' => hash_file('sha256', $file['fullpath'])
+                          'checksum' => $filehash
                         ]);
                         $newfile->save();
                     }
                 }
             } else {
-                throw new \Exception(__('scanfiles.galleryerror'), E_NOTICE);
+                throw new \Exception(__('cmdline.galleryerror'), E_NOTICE);
             }
         } catch (\Exception $e) {
             printf(__('cmdline.scanerror', [ "message" => $e->getMessage() ]));
