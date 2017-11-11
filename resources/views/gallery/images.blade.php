@@ -1,12 +1,17 @@
-@extends('gallery.show')
+@extends('gallery.base')
 
-@section('images')
-  <!-- Display all the images -->
+@section('title', __('gallery.title_all_images'))
+
+@section('styles')
+    @parent
+
+@endsection
+
+@section('image')
+  <div class="flex-center">
   @foreach($media as $file)
-    <!-- Fullpath: {{ $file->fullpath }} -->
-    <!-- Size: {{ $file->size }} -->
-    <!-- Mimetype: {{ $file->mimetype }} -->
-    <img src="/image/thumbnail/{{ $file->id }}">
+    <img src="/image/thumbnail/{{ $file->id }}" alt="{{ $file->filename }}">
   @endforeach
+  </div>
 
 @endsection

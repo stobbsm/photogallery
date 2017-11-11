@@ -38,15 +38,42 @@ class VerifyDatabase extends Command
      */
     public function handle()
     {
+        printf(__('cmdline.title_verify') . PHP_EOL);
         $files = File::all();
-        foreach ($files as $file) {
-            if (file_exists($file->fullpath)) {
-                printf("Verfying file: %s\n", $file->fullpath);
-                $this->call('photogallery:updatechecksum', [ "id" => $file->id ]);
-            } else {
-                printf("Can't find file: %s\n", $file->fullpath);
-                $file->delete();
+        if ($files != null) {
+            foreach ($files as $file) {
+                if (file_exists($file->fullpath)) {
+                    $verified=true;
+                    printf("Verfying file: %s -> ", $file->fullpath);
+                    if ($file->size != filesize($file->fullpath)) {
+                        $verified=false;
+                        printf("File size change -> ");
+                    }
+                    if ($file->mimetype != mime_content_type($file->fullpath)) {
+                        $verified=false;
+                        printf("Mimetype doesn't match -> ");
+                    }
+                    if ($file->filetype != filetype($file->fullpath)) {
+                        $verified=false;
+                        printf("Filetype doesn't match -> ");
+                    }
+                    if ($file->checksum != hash_file('sha256', $file->fullpath)) {
+                        $verified=false;
+                        printf("File hash doesn't match -> ");
+                    }
+
+                    if ($verified) {
+                        printf("File Verified\n");
+                    } else {
+                        printf("Verfication failed\n");
+                    }
+                } else {
+                    printf("Can't find file: %s\n", $file->fullpath);
+                    $file->delete();
+                }
             }
+        } else {
+            printf(__('cmdline.emptydb') . PHP_EOL);
         }
     }
 }

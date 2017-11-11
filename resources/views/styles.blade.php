@@ -1,5 +1,7 @@
 @extends('welcome')
 
-@secion('styles')
-<!-- Common styles included -->
+@section('styles')
+    @parent
+    <!-- Common styles included -->
+    
 @endsection

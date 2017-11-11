@@ -5,14 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>PhotoGallery - @lang('cmdline.verifying')</title>
+  <title>PhotoGallery - @yield('title')</title>
+  @section('styles')
+      <link rel="stylesheet" href="/css/app.css" type="text/css">
+  @show
 </head>
 <body>
-  <h2>@lang('cmdline.verifying')</h2>
-  <pre>
-    @php
-      Artisan::call('photogallery:scan');
-    @endphp
+  <h2>@yield('title')</h2>
+  Command output:
+  <pre class="command-line">
+    @section('command')
+
+    @show
   </pre>
 </body>
 </html>

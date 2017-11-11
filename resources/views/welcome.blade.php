@@ -6,8 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{{ ENV('APP_NAME') }}</title>
-        @section('styles')
 
+        @section('styles')
+            <link rel="stylesheet" href="css/app.css" type="text/css">
         @show
     </head>
     <body>
@@ -25,16 +26,18 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravels.
+                    Photogallery
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="links">
+                <a href="https://laravel.com">Made with Laravel</a>
+                <a href="https://github.com/stobbsm/photogallery">GitHub</a>
+                <a href="https://www.sproutingcommunications.com">Sponsored by Sprouting Communications</a>
             </div>
         </div>
     </body>

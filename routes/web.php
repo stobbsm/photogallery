@@ -15,25 +15,34 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/scangallery', function () {
-  return view('scanfiles');
+Route::get('/tools/scanfiles', function () {
+    return view('tools.scanfiles');
 });
 
-Route::get('/showgallery', function () {
-  $media = App\File::all();
-  return view('gallery.images', ["media" => $media]);
+Route::get('/tools/verifydb', function () {
+    return view('tools.verify');
+});
+
+Route::get('/gallery', function () {
+    $media = App\File::all();
+    return view('gallery.images', ["media" => $media]);
+});
+
+Route::get('/show/{id}', function ($id) {
+    $image = App\File::find($id);
+    return view('gallery.image', ["image" => $image]);
 });
 
 Route::get('/image/{id}', function ($id) {
-  $image = App\File::find($id);
-  return response($image->getContents())->
+    $image = App\File::find($id);
+    return response($image->getContents())->
             header('Content-Type', $image->mimetype);
 });
 
 Route::get('/image/thumbnail/{id}', function ($id) {
-  $image = App\File::find($id);
-  if($image->size > 0) {
-    return response($image->thumbnail())->
+    $image = App\File::find($id);
+    if ($image->size > 0) {
+        return response($image->thumbnail())->
               header('Content-Type', $image->mimetype);
-  }
+    }
 });

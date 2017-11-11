@@ -12,7 +12,7 @@ class File extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->belongsToMany('App\Tag', 'file_tag', 'file_id', 'tag_id');
     }
 
     public function loadData()
