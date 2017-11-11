@@ -10,9 +10,24 @@ class File extends Model
       'filename', 'fullpath', 'filetype', 'mimetype', 'size', 'checksum'
     ];
 
+    public function user()
+    {
+        return $this->hasOne('App\User');
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag', 'file_tag', 'file_id', 'tag_id');
+    }
+
+    public function fileinfo()
+    {
+        return $this->hasOne('App\Fileinfo');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
     }
 
     public function loadData()

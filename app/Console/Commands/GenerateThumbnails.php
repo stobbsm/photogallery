@@ -50,8 +50,8 @@ class GenerateThumbnails extends Command
             if (!file_exists($cache_path)) {
                 mkdir($cache_path);
             }
-            $max_width = 100;
-            $max_height = 100;
+            $max_width = 256;
+            $max_height = 256;
             list($width, $height) = getimagesize($file->fullpath);
             $ratio = $width / $height;
 

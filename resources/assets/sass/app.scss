@@ -1,38 +1,9 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+//@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
 // Variables
 @import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
-.footer {
-    bottom: 0;
-}
-
-.img-frame {
-    padding: 5px 2px 5px 2px;
-    img {
-        max-width: $img-max-width;
-        max-height: $img-max-height;
-    }
-}
-
-.command-line {
-    background: $console-bg;
-    color: $console-fg;
-    .black {
-        color: #000000;
-    }
-    .blue {
-        color: #0000dd;
-    }
-    .green {
-        color: #00dd00;
-    }
-    .red {
-        color: #dd0000;
-    }
-}
+@import "node_modules/bootstrap/scss/bootstrap";
