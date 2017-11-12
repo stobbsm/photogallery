@@ -3,12 +3,20 @@
 
 @section('image')
 
-    <div class="row align-items-center">
-        <div class="col-10 mx-auto d-block">
+    <div class="row">
+        <div class="col mx-auto d-block">
             <img class="img-fluid" src="/image/{{ $image->id }}" alt="{{ $image->filename }}">
         </div>
-        <div class="col-2">
-            <p>Image information</p>
+        <div class="col">
+            <h4>{{ $image->fileinfo->title }}</h4>
+            <p>{{ $image->fileinfo->desc }}</p>
+            <ul>Tags:
+            @forelse ($image->tags as $tag)
+                <li>{{ $tag }}</li>
+            @empty
+                <p>No Tags</p>
+            @endforelse
+            </ul>
         </div>
     </div>
 

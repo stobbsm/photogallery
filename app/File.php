@@ -22,7 +22,10 @@ class File extends Model
 
     public function fileinfo()
     {
-        return $this->hasOne('App\Fileinfo');
+        return $this->hasOne('App\Fileinfo')->withDefault([
+            'title' => "Untitled",
+            'desc' => "No Description",
+        ]);
     }
 
     public function comments()

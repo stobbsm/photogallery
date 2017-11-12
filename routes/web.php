@@ -46,3 +46,7 @@ Route::get('/image/thumbnail/{id}', function ($id) {
               header('Content-Type', $image->mimetype);
     }
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
