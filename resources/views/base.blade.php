@@ -23,14 +23,26 @@
         </button>
 
         <div class="collapse navbar-collapse" id="responsiveHidden">
-            <ul class="navbar-nav">
-                @section('navbar')
 
-                @show
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/login') }}">Login</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav mr-0 ml-auto">
+                    @section('navbar')
+
+                    @show
+                    @if (!Auth::check())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/login') }}">Login</a>
+                        </li>
+                    @else
+                        {{-- Display menu to access gallery --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url("/gallery") }}">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url("/upload") }}">Upload Image</a>
+                        </li>
+                    @endif
+                </ul>
+
         </div>
     </nav>
 </div>
