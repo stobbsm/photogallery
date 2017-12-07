@@ -11,7 +11,14 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
+  if (Auth::check()) {
+    return redirect('/home');
+  }
+  return redirect('/welcome');
+});
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -50,3 +57,8 @@ Route::get('/image/thumbnail/{id}', function ($id) {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resources([
+  'users' => 'UserController',
+
+]);

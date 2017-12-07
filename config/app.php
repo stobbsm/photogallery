@@ -177,8 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Sprouting Communicaitons FileBrowser package
         App\Providers\FileBrowserServiceProvider::class,
-
+        
     ],
 
     /*

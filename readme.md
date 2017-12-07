@@ -11,7 +11,7 @@ A photo album application based on Laravel.
 
 ## Notes
 * Personal project, but use what you like.
-* Really just wanted to figure out how to resize images on the fly, and create an efficient way of displaying those images, and get people to stop making look on Facebook.
+* Really just wanted to figure out how to resize images on the fly, and create an efficient way of displaying those images, and get people to stop making me look on Facebook.
 
 #### License and other stuff
 Licensed under the GPLv3. Use it as much as you want, for whatever you want, but please send changes back to me.
