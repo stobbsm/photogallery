@@ -67,26 +67,26 @@ class File extends Model
             }
 
             switch ($this->mimetype) {
-          case 'image/jpeg':
-          case 'image/jpg':
-            $image_create_func = 'imagecreatefromjpeg';
-            $image_save_func = 'imagejpeg';
-            break;
+              case 'image/jpeg':
+              case 'image/jpg':
+                $image_create_func = 'imagecreatefromjpeg';
+                $image_save_func = 'imagejpeg';
+                break;
 
-          case 'image/png':
-            $image_create_func = 'imagecreatefrompng';
-            $image_save_func = 'imagepng';
-            break;
+              case 'image/png':
+                $image_create_func = 'imagecreatefrompng';
+                $image_save_func = 'imagepng';
+                break;
 
-          case 'image/gif':
-            $image_create_func = 'imagecreatefromgif';
-            $image_save_func = 'imagegif';
-            break;
+              case 'image/gif':
+                $image_create_func = 'imagecreatefromgif';
+                $image_save_func = 'imagegif';
+                break;
 
-          default:
-            throw new Exception('Unknown image type: '.$this->mimetype);
-            break;
-        }
+              default:
+                throw new Exception('Unknown image type: '.$this->mimetype);
+                break;
+            }
             $original = $image_create_func($this->fullpath);
             $tmp = imagecreatetruecolor($new_width, $new_height);
             imagecopyresampled($tmp, $original, 0, 0, 0, 0, $new_width, $new_height, $width, $height);

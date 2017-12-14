@@ -16,7 +16,7 @@
     @endif--}}
     <div class="col align-self-center">
         <div class="card" style="width: 20rem;">
-            <img class="card-img-top" src="/image/thumbnail/{{ $file->id }}" alt="{{ $file->filename }}">
+            <img class="card-img-top" src="{{ route('image.thumbnail', ['id' => $file->id]) }}" alt="{{ $file->filename }}">
             <div class="card-body">
                 <h4 class="card-title">{{ $file->filename }}</h4>
                 <p class="card-text">{{ $file->fullpath }}</p>
@@ -28,7 +28,7 @@
                     {{ $tag }}
                 @endforeach
                 </p>
-                <a class="btn btn-primary" href="/show/{{ $file->id }}">{{ $file->filename }}</a>
+                <a class="btn btn-primary" href="{{ route('image.show', ['id' => $file->id]) }}">{{ $file->filename }}</a>
             </div>
         </div>
     </div>

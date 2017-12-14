@@ -30,45 +30,16 @@ Route::get('/tools/verifydb', function () {
     return view('tools.verify');
 });
 
-Route::get('/gallery', function () {
-    $media = App\File::all();
-    return view('gallery.images', ["media" => $media]);
-});
-
-Route::get('/show/{id}', function ($id) {
-    $image = App\File::find($id);
-    return view('gallery.image', ["image" => $image]);
-});
-
-Route::get('/image/{id}', function ($id) {
-    $image = App\File::find($id);
-    return response($image->getContents())->
-            header('Content-Type', $image->mimetype);
-});
-
-Route::get('/image/{id}/download', function ($id) {
-  $image = App\File::find($id);
-  return response($image->getContents())->
-          header('Content-Description', 'File Transfer')->
-          header('Content-Disposition', "attachment; filename=" . $image->filename)->
-          header('Content-Transfer-Encoding', 'binary')->
-          header('Connection', 'Keep-Alive')->
-          header('Content-Type', 'application/octet-stream');
-});
-
-Route::get('/image/thumbnail/{id}', function ($id) {
-    $image = App\File::find($id);
-    if ($image->size > 0) {
-        return response($image->thumbnail())->
-              header('Content-Type', $image->mimetype);
-    }
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Specialized Image routes
+Route::get('/image/{id}/fetch', 'ImageController@fetch')->name('image.fetch');
+Route::get('/image/{id}/download', 'ImageController@download')->name('image.download');
+Route::get('/image/{id}/thumbnail', 'ImageController@thumbnail')->name('image.thumbnail');
+
 Route::resources([
   'users' => 'UserController',
-
+  'image' => 'ImageController',
 ]);
