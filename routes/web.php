@@ -46,6 +46,16 @@ Route::get('/image/{id}', function ($id) {
             header('Content-Type', $image->mimetype);
 });
 
+Route::get('/image/{id}/download', function ($id) {
+  $image = App\File::find($id);
+  return response($image->getContents())->
+          header('Content-Description', 'File Transfer')->
+          header('Content-Disposition', "attachment; filename=" . $image->filename)->
+          header('Content-Transfer-Encoding', 'binary')->
+          header('Connection', 'Keep-Alive')->
+          header('Content-Type', 'application/octet-stream');
+});
+
 Route::get('/image/thumbnail/{id}', function ($id) {
     $image = App\File::find($id);
     if ($image->size > 0) {

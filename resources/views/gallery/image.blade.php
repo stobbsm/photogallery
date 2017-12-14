@@ -17,6 +17,7 @@
                 <p>No Tags</p>
             @endforelse
             </ul>
+            <a class="btn btn-primary" href="/image/{{ $image->id }}/download">Download</a>
         </div>
     </div>
 

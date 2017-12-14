@@ -53,8 +53,8 @@ class File extends Model
             if (!file_exists($cache_path)) {
                 mkdir($cache_path);
             }
-            $max_width = 100;
-            $max_height = 100;
+            $max_width = ENV('THUMBNAIL_SIZE', 256);
+            $max_height = ENV('THUMBNAIL_SIZE', 256);
             list($width, $height) = getimagesize($this->fullpath);
             $ratio = $width / $height;
 

@@ -6,7 +6,7 @@ return [
     'status_scan_start' => "Scanning the photo library...",
     'status_scan_stop' => "Done scanning the photo library",
     'status_scan_diff' => "Difference in files",
-    'error_scan' => "Scanning error :message",
+    'scanerror' => "Scanning error :message",
     'status_scan_filenotexist' => "File doesn't exist in the database",
 
     // Verifying
@@ -18,6 +18,7 @@ return [
 
     // General
     'error_gallerypath' => "You must set GALLERYPATH in your env",
+    'error' => "Error running this command",
     'status_adding' => "Adding new files to database",
     'hashof' => "Hash of file",
     'checked' => "Checked",
