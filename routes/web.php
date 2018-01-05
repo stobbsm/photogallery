@@ -22,14 +22,6 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-/*Route::get('/tools/scanfiles', function () {
-    return view('tools.scanfiles');
-});
-
-Route::get('/tools/verifydb', function () {
-    return view('tools.verify');
-});*/
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -11,7 +11,7 @@ class ImageController extends Controller
     {
       $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +30,7 @@ class ImageController extends Controller
      */
     public function create()
     {
-        //
+        return view('gallery.upload');
     }
 
     /**
@@ -41,7 +41,8 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        return view('gallery.edit');
     }
 
     /**
@@ -58,13 +59,15 @@ class ImageController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * This is for updating tag data and user generated metadata.
      *
      * @param  int $image
      * @return \Illuminate\Http\Response
      */
     public function edit($image)
     {
-        //
+        $file = File::find($image);
+        return view('gallery.edit', ["image" => $file]);
     }
 
     /**

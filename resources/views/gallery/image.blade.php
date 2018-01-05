@@ -11,7 +11,7 @@
         <div class="col mx-auto d-block">
             <img class="img-fluid" src="{{ route('image.fetch', ['id' => $image->id]) }}" alt="{{ $image->filename }}">
         </div>
-        <div class="col">
+        <div class="col-md-3 border border-primary rounded">
             <h4>{{ $image->fileinfo->title }}</h4>
             <p>{{ $image->fileinfo->desc }}</p>
             <ul>Tags:
@@ -21,6 +21,7 @@
                 <p>No Tags</p>
             @endforelse
             </ul>
+            <a class="btn btn-primary" href="{{ route('image.edit', ['id' => $image->id]) }}">Edit Metadata</a>
             <a class="btn btn-primary" href="{{ route('image.download', ['id' => $image->id]) }}">Download</a>
         </div>
     </div>

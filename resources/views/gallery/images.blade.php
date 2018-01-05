@@ -10,15 +10,11 @@
 @section('image')
   <div class="row align-items-center mt-1">
   @foreach($media as $file)
-    {{--@if ($loop->index % 3 == 0 && !$loop->first)
-        </div>
-        <div class="row align-items-center mt-1">
-    @endif--}}
     <div class="col align-self-center">
         <div class="card" style="width: 20rem;">
-            <img class="card-img-top" src="{{ route('image.thumbnail', ['id' => $file->id]) }}" alt="{{ $file->filename }}">
+            <a href="{{ route('image.show', ['id' => $file->id]) }}"><img class="card-img-top" src="{{ route('image.thumbnail', ['id' => $file->id]) }}" alt="{{ $file->filename }}"></a>
             <div class="card-body">
-                <h4 class="card-title">{{ $file->filename }}</h4>
+                <h4 class="card-title">{{ $file->fileinfo->title }}</h4>
                 <p class="card-text">{{ $file->fullpath }}</p>
                 <p class="card-text">
                 @foreach($file->tags as $tag)

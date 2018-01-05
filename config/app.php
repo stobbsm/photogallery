@@ -179,7 +179,9 @@ return [
 
         // Sprouting Communicaitons FileBrowser package
         App\Providers\FileBrowserServiceProvider::class,
-        
+
+        // LaravelCollective packages
+        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -228,6 +230,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // LaravelCollective aliases
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Form' => Collective\Html\FormFacade::class,
 
     ],
 

@@ -10,16 +10,31 @@ class File extends Model
       'filename', 'fullpath', 'filetype', 'mimetype', 'size', 'checksum'
     ];
 
+    /**
+    * File can only belong to one user
+    *
+    * @return App\User object of the owning user
+    */
     public function user()
     {
         return $this->hasOne('App\User');
     }
 
+    /**
+    * File can have many tags, and tags can belong to many files
+    *
+    * @return \App\Tag[] object containg tags
+    */
     public function tags()
     {
         return $this->belongsToMany('App\Tag', 'file_tag', 'file_id', 'tag_id');
     }
 
+    /**
+    * File can have only one FileInfo type
+    *
+    * @return App\Fileinfo object containg editable metadata
+    */
     public function fileinfo()
     {
         return $this->hasOne('App\Fileinfo')->withDefault([
@@ -28,23 +43,31 @@ class File extends Model
         ]);
     }
 
+    /**
+    * File can have many comments
+    *
+    * @return \App\Comment[] object containg comments for the file
+    */
     public function comments()
     {
         return $this->hasMany('App\Comment');
     }
 
-    public function loadData()
-    {
-        $base64_img_contents = base64_encode($this->getContents());
-
-        return $base64_img_contents;
-    }
-
+    /**
+    * getContents returns the contents of the file
+    *
+    * @return string|bool Contents of the file, or false on failure
+    */
     public function getContents()
     {
         return file_get_contents($this->fullpath);
     }
 
+    /**
+    * thumbnail returns the content of the given file after generating a thumbnail (if it needs to).
+    *
+    * @return string|bool Contents of the file or false on failure
+    */
     public function thumbnail()
     {
         $cache_path = storage_path() . '/imagecache';
