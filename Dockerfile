@@ -26,8 +26,9 @@ RUN apt-get update && apt-get install -y \
 	pdo_sqlite \
 	zip \
 	opcache \
-	&& docker-php-ext-configure -J$(nproc) gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-	&& docker-php-ext-install gd
+	&& docker-php-ext-install -j$(nproc) iconv mcrypt \
+	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+	&& docker-php-ext-install -j$(nproc) gd
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
@@ -38,14 +39,14 @@ RUN mkdir ${APP_HOME}
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN sed -i -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/*.conf
-RUN sed -i -e "s!/var/www/!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/apache2.conf /etc/apache2/config-available/*.conf
+RUN sed -i -e "s!/var/www/!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 RUN a2enmod rewrite
 
 WORKDIR ${APP_HOME}
 COPY . ${APP_HOME}
 RUN mkdir /photogallery
 VOLUME /photogallery
-VOLUME ${APP_HOME}/database/database.sql
+VOLUME ${APP_HOME}/database/database.sqlite
 
 ENV GALLERYPATH /photogallery
 
