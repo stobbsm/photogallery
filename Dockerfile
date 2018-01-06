@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y \
 	libjpeg62-turbo-dev \
 	libmcrypt-dev \
 	libpng-dev \
+	libsqlite3-dev \
+	libsqlite3-0 \
 	sqlite3 \
 	&& rm -r /var/lib/apt/lists/* \
 	&& docker-php-ext-install \
