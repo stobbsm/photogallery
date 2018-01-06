@@ -7,32 +7,32 @@ use Illuminate\Database\Migrations\Migration;
 class CreateFilebrowserTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::create('files', function(Blueprint $table) {
-          $table->bigIncrements('id');
-          $table->string('filename');
-          $table->string('fullpath');
-          $table->string('filetype');
-          $table->string('mimetype');
-          $table->bigInteger('size')->unsigned()->nullable();
-          $table->timestamps();
-
-          $table->unique('fullpath');
-          $table->index('filename');
-          $table->index('mimetype');
+            $table->bigIncrements('id');
+            $table->string('filename');
+            $table->string('fullpath');
+            $table->string('filetype');
+            $table->string('mimetype');
+            $table->bigInteger('size')->unsigned()->nullable();
+            $table->timestamps();
+            
+            $table->unique('fullpath');
+            $table->index('filename');
+            $table->index('mimetype');
         });
     }
-
+    
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
         Schema::drop('files');

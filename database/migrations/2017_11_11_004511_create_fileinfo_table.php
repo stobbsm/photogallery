@@ -7,10 +7,10 @@ use Illuminate\Database\Migrations\Migration;
 class CreateFileinfoTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::create('fileinfo', function (Blueprint $table) {
@@ -22,12 +22,12 @@ class CreateFileinfoTable extends Migration
             $table->timestamps();
         });
     }
-
+    
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
         Schema::dropIfExists('fileinfo');

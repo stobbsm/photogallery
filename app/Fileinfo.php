@@ -11,7 +11,7 @@ class Fileinfo extends Model
     protected $fillable = [
         'title', 'desc'
     ];
-
+    
     public function file()
     {
         return $this->belongsTo('App\File')->withDefault([
@@ -20,3 +20,4 @@ class Fileinfo extends Model
         ]);
     }
 }
+    

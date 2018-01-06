@@ -8,10 +8,10 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
+    * The Artisan commands provided by your application.
+    *
+    * @var array
+    */
     protected $commands = [
         Commands\PhotoGallery::class,
         Commands\ScanPhotoGallery::class,
@@ -20,26 +20,26 @@ class Kernel extends ConsoleKernel
         Commands\GenerateThumbnails::class,
         Commands\CleanAll::class
     ];
-
+    
     /**
-     * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
+    * Define the application's command schedule.
+    *
+    * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+    * @return void
+    */
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('photogallery:verifydatabase')
-                    ->hourly();
+            ->hourly();
     }
-
+    
     /**
-     * Register the Closure based commands for the application.
-     *
-     * @return void
-     */
+    * Register the Closure based commands for the application.
+    *
+    * @return void
+    */
     protected function commands()
     {
         require base_path('routes/console.php');

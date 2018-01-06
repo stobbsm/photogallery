@@ -9,24 +9,24 @@ use App\File;
 class ScanPhotoGallery extends Command
 {
     /**
-     * The name and signature of the console command.
-     * @var string
-     *
-     */
+    * The name and signature of the console command.
+    * @var string
+    *
+    */
     protected $signature = 'photogallery:scan';
-
+    
     /**
-     * The console command description.
-     *
-     * @var string
-     */
+    * The console command description.
+    *
+    * @var string
+    */
     protected $description = 'Scan the photogallery and build a database';
-
+    
     /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
+    * Execute the console command.
+    *
+    * @return mixed
+    */
     public function handle()
     {
         $fileDifference = false;
@@ -35,14 +35,14 @@ class ScanPhotoGallery extends Command
             if (env('GALLERYPATH', false)) {
                 $this->filebrowser = resolve('FileBrowser');
                 $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'))->Flatten(false)->get();
-
+                
                 foreach ($mediaFiles as $file) {
                     $filehash = hash_file('sha256', $file['fullpath']);
-
+                    
                     try {
                         printf(__('cmdline.status_verify_file') . ": %s -> ", $file['name']);
                         $oldfile = File::where('checksum', $filehash)->first();
-
+                        
                         if ($oldfile == null) {
                             throw new \Exception(__('cmdline.status_scan_filenotexist'), E_NOTICE);
                         } else {
@@ -50,14 +50,14 @@ class ScanPhotoGallery extends Command
                         }
                     } catch (\Exception $e) {
                         printf($e->getMessage() . ' -> ');
-
+                        
                         $newfile = File::firstOrNew([
-                          'filename' => $file['name'],
-                          'fullpath' => $file['fullpath'],
-                          'filetype' => $file['filetype'],
-                          'mimetype' => $file['mimetype'],
-                          'size' => $file['size'],
-                          'checksum' => $filehash
+                            'filename' => $file['name'],
+                            'fullpath' => $file['fullpath'],
+                            'filetype' => $file['filetype'],
+                            'mimetype' => $file['mimetype'],
+                            'size' => $file['size'],
+                            'checksum' => $filehash
                         ]);
                         $newfile->save();
                         printf(__('cmdline.added'). PHP_EOL);
@@ -72,3 +72,4 @@ class ScanPhotoGallery extends Command
         }
     }
 }
+    

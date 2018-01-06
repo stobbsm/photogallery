@@ -8,34 +8,34 @@ use App\File;
 class VerifyDatabase extends Command
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    * The name and signature of the console command.
+    *
+    * @var string
+    */
     protected $signature = 'photogallery:verifydatabase';
-
+    
     /**
-     * The console command description.
-     *
-     * @var string
-     */
+    * The console command description.
+    *
+    * @var string
+    */
     protected $description = 'Verifies the database integrity, and cleans it up if needed.';
-
+    
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
+    * Create a new command instance.
+    *
+    * @return void
+    */
     public function __construct()
     {
         parent::__construct();
     }
-
+    
     /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
+    * Execute the console command.
+    *
+    * @return mixed
+    */
     public function handle()
     {
         printf(__('cmdline.title_verify') . PHP_EOL);
@@ -61,7 +61,7 @@ class VerifyDatabase extends Command
                         $verified=false;
                         printf("File hash doesn't match -> ");
                     }
-
+                    
                     if ($verified) {
                         printf("File Verified\n");
                     } else {

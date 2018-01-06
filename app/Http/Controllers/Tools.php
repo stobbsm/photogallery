@@ -10,24 +10,24 @@ class Tools extends Controller
   {
     $this->middleware('auth');
   }
-
-   /**
-   * Scan the files and add them to the database
-   *
-   * @return \Illuminate\Http\Response
-   */
-    public function scanfiles()
-    {
-      return view('tools.scanfiles');
-    }
-
-    /**
-    * Verify the database as compared to the filesystem
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function verifydb()
-    {
-      return view('tools.verify');
-    }
+  
+  /**
+  * Scan the files and add them to the database
+  *
+  * @return \Illuminate\Http\Response
+  */
+  public function scanfiles()
+  {
+    return view('tools.scanfiles');
+  }
+  
+  /**
+  * Verify the database as compared to the filesystem
+  *
+  * @return \Illuminate\Http\Response
+  */
+  public function verifydb()
+  {
+    return view('tools.verify');
+  }
 }
