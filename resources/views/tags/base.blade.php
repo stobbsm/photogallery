@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     @include('components.errors')
-    
-    @section('image')
-    
+
+    @section('tag_content')
+
     @show
 </div>
 @endsection

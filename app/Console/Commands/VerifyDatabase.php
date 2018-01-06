@@ -12,7 +12,8 @@ class VerifyDatabase extends Command
     *
     * @var string
     */
-    protected $signature = 'photogallery:verifydatabase';
+    protected $signature = 'photogallery:verifydatabase
+                                                        {--autofix : Attempt to fix any errors}';
     
     /**
     * The console command description.
@@ -38,42 +39,52 @@ class VerifyDatabase extends Command
     */
     public function handle()
     {
-        printf(__('cmdline.title_verify') . PHP_EOL);
+        $autofix = $this->option('autofix');
+        $this->line(__('cmdline.title_verify'));
+
+        $this->comment("Autofix: " . $autofix);
         $files = File::all();
         if ($files != null) {
             foreach ($files as $file) {
                 if (file_exists($file->fullpath)) {
                     $verified=true;
-                    printf("Verfying file: %s -> ", $file->fullpath);
+                    $this->info(__('cmdline.verify_file', ['filename' => $file->id]));
                     if ($file->size != filesize($file->fullpath)) {
                         $verified=false;
-                        printf("File size change -> ");
+                        $this->comment("File size change -> " . filesize($file->fullpath));
                     }
                     if ($file->mimetype != mime_content_type($file->fullpath)) {
                         $verified=false;
-                        printf("Mimetype doesn't match -> ");
+                        $this->comment("Mimetype doesn't match -> " . mime_content_type($file->fullpath));
                     }
                     if ($file->filetype != filetype($file->fullpath)) {
                         $verified=false;
-                        printf("Filetype doesn't match -> ");
+                        $this->comment("Filetype doesn't match -> " . filetype($file->fullpath));
                     }
-                    if ($file->checksum != hash_file('sha256', $file->fullpath)) {
+                    $filehash = hash_file('sha256', $file->fullpath);
+                    if ($file->checksum != $filehash) {
                         $verified=false;
-                        printf("File hash doesn't match -> ");
+                        $this->comment("File hash doesn't match -> " . $filehash);
                     }
                     
                     if ($verified) {
-                        printf("File Verified\n");
+                        $this->info("File Verified\n");
                     } else {
-                        printf("Verfication failed\n");
+                        $this->error("Verfication failed\n");
+                        if($autofix) {
+                            $this->line("Attempting to fix: " . $file->id);
+                            $this->call('photogallery:fixfile', ['id' => $file->id]);
+                        } else {
+                            $this->info("Not attempting to fix. Set autofix to 'true' to fix");
+                        }
                     }
                 } else {
-                    printf("Can't find file: %s\n", $file->fullpath);
+                    $this->error("Can't find file: " . $file->fullpath);
                     $file->delete();
                 }
             }
         } else {
-            printf(__('cmdline.emptydb') . PHP_EOL);
+            $this->info(__('cmdline.emptydb'));
         }
     }
 }

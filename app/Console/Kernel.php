@@ -18,7 +18,8 @@ class Kernel extends ConsoleKernel
         Commands\UpdateChecksum::class,
         Commands\VerifyDatabase::class,
         Commands\GenerateThumbnails::class,
-        Commands\CleanAll::class
+        Commands\CleanAll::class,
+        Commands\FixFile::class,
     ];
     
     /**

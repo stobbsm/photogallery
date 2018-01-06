@@ -38,7 +38,7 @@ class CleanAll extends Command
     */
     public function handle()
     {
-        printf("Building filelist in the imagecache...\n");
+        $this->info("Building filelist in the imagecache...\n");
         
         $inUseMap = array();
         $files = File::all();
@@ -68,7 +68,7 @@ class CleanAll extends Command
             }
         }
         
-        printf("Files cleaned: %b\n", $cleanedCount);
-        printf("Cleaned size: %bB\n", $cleanedSize);
+        $this->info("Files cleaned: %b\n", $cleanedCount);
+        $this->info("Cleaned size: %bB\n", $cleanedSize);
     }
 }

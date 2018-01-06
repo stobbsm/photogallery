@@ -64,6 +64,24 @@ class File extends Model
     }
     
     /**
+     * isUnamed determines if the file's fileinfo has a title element set
+     * 
+     * @return bool true|false
+     */
+    public function isUnamed()
+    {
+        return $this->fileinfo->title == "Untitled";
+    }
+
+    /**
+     * isUnTagged determines if the file has any tags
+     */
+    public function isUnTagged()
+    {
+        return $this->tags()->count() == 0;
+    }
+
+    /**
     * thumbnail returns the content of the given file after generating a thumbnail (if it needs to).
     *
     * @return string|bool Contents of the file or false on failure

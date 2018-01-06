@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\Console\Output\BufferedOutput;
 use Illuminate\Http\Request;
 
 class Tools extends Controller
@@ -18,7 +19,8 @@ class Tools extends Controller
   */
   public function scanfiles()
   {
-    return view('tools.scanfiles');
+    \Artisan::call('photogallery:scan');
+    return view('tools.scanfiles', ['output' => \Artisan::output()]);
   }
   
   /**
@@ -28,6 +30,7 @@ class Tools extends Controller
   */
   public function verifydb()
   {
-    return view('tools.verify');
+    \Artisan::call('photogallery:verifydatabase');
+    return view('tools.scanfiles', ['output' => \Artisan::output()]);
   }
 }

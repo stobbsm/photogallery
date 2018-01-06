@@ -39,6 +39,7 @@ class UpdateChecksum extends Command
     public function handle()
     {
         $id = intval($this->argument('id'));
+        $this->line("Updating checksum for $id");
         $file = File::find($id);
         $hash = hash_file('sha256', $file->fullpath);
         if ($file->checksum != $hash) {

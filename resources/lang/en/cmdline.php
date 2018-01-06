@@ -13,8 +13,9 @@ return [
     'title_verify' => "Verify database integrity",
     'status_verify_start' => "Verifying files in database...",
     'status_verify_stop' => "Done verifying files in database",
-    'status_verify_file' => "Checking file",
+    'status_verify_file' => "Checking file: :filename",
     'error_verify_file' => "Error when verifying file",
+    'verify_file' => "Verify: :filename",
 
     // General
     'error_gallerypath' => "You must set GALLERYPATH in your env",

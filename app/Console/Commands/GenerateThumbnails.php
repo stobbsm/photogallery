@@ -38,13 +38,13 @@ class GenerateThumbnails extends Command
     */
     public function handle()
     {
-        printf("Generating Thumbnails\n");
+        $this->line("Generating Thumbnails\n");
         $files = File::all();
         foreach ($files as $file) {
             $cache_path = storage_path() . '/imagecache';
             $cache_file = $cache_path . '/' . $file->checksum;
             if (file_exists($cache_file)) {
-                printf("Removing existing thumbnail\n");
+                $this->comment("Removing existing thumbnail\n");
                 unlink($cache_file);
             }
             if (!file_exists($cache_path)) {
@@ -94,7 +94,7 @@ class GenerateThumbnails extends Command
                     
                 $image_save_func($tmp, $cache_file);
             } catch (ErrorException $e) {
-                printf("Error: %s\n", $e->getMessage());
+                $this->error("Error: %s\n", $e->getMessage());
             }
         }
     }

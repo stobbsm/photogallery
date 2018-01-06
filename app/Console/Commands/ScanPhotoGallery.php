@@ -30,26 +30,23 @@ class ScanPhotoGallery extends Command
     public function handle()
     {
         $fileDifference = false;
-        printf(__('cmdline.title_scan') . "\n");
+        $this->line(__('cmdline.title_scan'));
         try {
             if (env('GALLERYPATH', false)) {
                 $this->filebrowser = resolve('FileBrowser');
                 $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'))->Flatten(false)->get();
+                $bar = $this->output->createProgressBar(count($mediaFiles));
                 
                 foreach ($mediaFiles as $file) {
                     $filehash = hash_file('sha256', $file['fullpath']);
                     
                     try {
-                        printf(__('cmdline.status_verify_file') . ": %s -> ", $file['name']);
                         $oldfile = File::where('checksum', $filehash)->first();
                         
                         if ($oldfile == null) {
                             throw new \Exception(__('cmdline.status_scan_filenotexist'), E_NOTICE);
-                        } else {
-                            printf(__('cmdline.exists') . PHP_EOL);
                         }
                     } catch (\Exception $e) {
-                        printf($e->getMessage() . ' -> ');
                         
                         $newfile = File::firstOrNew([
                             'filename' => $file['name'],
@@ -60,14 +57,16 @@ class ScanPhotoGallery extends Command
                             'checksum' => $filehash
                         ]);
                         $newfile->save();
-                        printf(__('cmdline.added'). PHP_EOL);
                     }
+                    $bar->advance();
                 }
             } else {
                 throw new \Exception(__('cmdline.galleryerror'), E_NOTICE);
             }
+            $bar->finish();
+            $this->line(" Done!");
         } catch (\Exception $e) {
-            printf(__('cmdline.scanerror', [ "message" => $e->getMessage() ]));
+            $this->error(__('cmdline.scanerror', [ "message" => $e->getMessage() ]));
             exit($e->getCode());
         }
     }

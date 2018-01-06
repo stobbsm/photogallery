@@ -37,6 +37,6 @@ class PhotoGallery extends Command
     */
     public function handle()
     {
-        printf("Gallery path: %s\n", env('GALLERYPATH', 'not set'));
+        $this->info("Gallery path: %s\n", env('GALLERYPATH', 'not set'));
     }
 }

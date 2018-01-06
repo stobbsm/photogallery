@@ -9,7 +9,7 @@ class Fileinfo extends Model
     protected $table = 'fileinfo';
     
     protected $fillable = [
-        'title', 'desc'
+        'title', 'desc', 'file_id', 'user_id'
     ];
     
     public function file()
