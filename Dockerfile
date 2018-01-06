@@ -34,6 +34,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 
 ENV APACHE_DOCUMENT_ROOT /application/public
 ENV APP_HOME /application
+ENV GALLERYPATH /photogallery
+ENV APP_NAME PhotoGallery
+ENV APP_DEBUG false
+ENV DB_CONNECTION sqlite
 
 RUN mkdir ${APP_HOME}
 
@@ -48,9 +52,15 @@ RUN mkdir /photogallery
 VOLUME /photogallery
 VOLUME ${APP_HOME}/database/database.sqlite
 
-ENV GALLERYPATH /photogallery
-
 EXPOSE 80
 
-RUN composer install --no-interaction
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+RUN touch .env
+RUN echo "APP_KEY=" > .env
+RUN php artisan key:generate
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan migrate --force --seed
 RUN chown -R www-data:www-data $APP_HOME
+
+RUN php artisan key:generate

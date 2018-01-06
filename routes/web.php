@@ -11,16 +11,8 @@
 |
 */
 
-Route::get('/', function() {
-  if (Auth::check()) {
-    return redirect('/home');
-  }
-  return redirect('/welcome');
-});
-
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+Route::get('/', 'GuestController@index');
+Route::get('/welcome', 'GuestController@welcome');
 
 Auth::routes();
 
