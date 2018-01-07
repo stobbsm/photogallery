@@ -41,60 +41,11 @@ class GenerateThumbnails extends Command
         $this->line("Generating Thumbnails\n");
         $files = File::all();
         foreach ($files as $file) {
-            $cache_path = storage_path() . '/imagecache';
-            $cache_file = $cache_path . '/' . $file->checksum;
-            if (file_exists($cache_file)) {
-                $this->comment("Removing existing thumbnail\n");
-                unlink($cache_file);
-            }
-            if (!file_exists($cache_path)) {
-                mkdir($cache_path);
-            }
-            $max_width = 256;
-            $max_height = 256;
-            list($width, $height) = getimagesize($file->fullpath);
-            $ratio = $width / $height;
-            
-            if ($max_width/$max_height > $ratio) {
-                $new_width = $max_height*$ratio;
-                $new_height = $max_height;
-            } else {
-                $new_height = $max_width/$ratio;
-                $new_width = $max_width;
-            }
-            
-            switch ($file->mimetype) {
-                case 'image/jpeg':
-                case 'image/jpg':
-                    $image_create_func = 'imagecreatefromjpeg';
-                    $image_save_func = 'imagejpeg';
-                    break;
-                
-                case 'image/png':
-                    $image_create_func = 'imagecreatefrompng';
-                    $image_save_func = 'imagepng';
-                    break;
-                
-                case 'image/gif':
-                    $image_create_func = 'imagecreatefromgif';
-                    $image_save_func = 'imagegif';
-                    break;
-                    
-                default:
-                    throw new Exception('Unknown image type: '.$file->mimetype);
-                    break;
-            }
             try {
-                $original = @$image_create_func($file->fullpath);
-                if (!$original) {
-                    $original = imagecreatefromstring(file_get_contents($file->fullpath));
-                }
-                $tmp = imagecreatetruecolor($new_width, $new_height);
-                imagecopyresampled($tmp, $original, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-                    
-                $image_save_func($tmp, $cache_file);
-            } catch (ErrorException $e) {
-                $this->error("Error: %s\n", $e->getMessage());
+                $this->comment('Generating thumbnail for ' . $file->filename);
+                $file->thumbnail();
+            } catch (\Exception $e) {
+                $this->error('Error generating thumbnail');
             }
         }
     }

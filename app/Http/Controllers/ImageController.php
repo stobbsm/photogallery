@@ -29,7 +29,7 @@ class ImageController extends Controller
     */
     public function index()
     {
-        $media = File::all();
+        $media = File::paginate(9);
         return view('gallery.images', ["media" => $media]);
     }
     
@@ -227,7 +227,7 @@ class ImageController extends Controller
             }
         }
         $ids = array_unique(array_merge($noTitle, $noTags));
-        $files = File::find($ids);
+        $files = File::whereIn('id', $ids)->paginate(9);
 
         return view('gallery.images', ["media" => $files]);
     }
