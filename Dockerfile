@@ -60,6 +60,7 @@ RUN echo "APP_KEY=" > .env
 RUN php artisan key:generate
 RUN php artisan config:cache
 RUN php artisan route:cache
+RUN touch ${APP_HOME}/database/database.sqlite
 RUN php artisan migrate --force --seed
 RUN chown -R www-data:www-data $APP_HOME
 
