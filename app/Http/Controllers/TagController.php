@@ -14,7 +14,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::orderBy('tag')->paginate(9)->get();
+        $tags = Tag::orderBy('tag')->paginate(9);
         return view('tags.tags', ['tags' => $tags]);
     }
 
@@ -25,7 +25,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->action('TagController@index');
     }
 
     /**
@@ -36,7 +36,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect()->action('TagController@index');
     }
 
     /**
@@ -59,7 +59,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        return redirect()->action('TagController@index');
     }
 
     /**
@@ -71,7 +71,7 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        return redirect()->action('TagController@index');
     }
 
     /**
@@ -82,6 +82,6 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        return redirect()->action('TagController@index');
     }
 }
