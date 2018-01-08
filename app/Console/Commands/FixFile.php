@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\File;
+use Illuminate\Support\Facades\Storage;
 
 class FixFile extends Command
 {
@@ -42,10 +43,10 @@ class FixFile extends Command
         $this->line("Fixing file $id");
         $file = File::find($id);
 
-        $checksum = hash_file('sha256', $file->fullpath);
-        $size = filesize($file->fullpath);
+        $checksum = hash_file('sha256', $file->getFullPath());
+        $size = Storage::size($file->fullpath);
         $filetype = 'file';
-        $mimetype = mime_content_type($file->fullpath);
+        $mimetype = mime_content_type($file->getFullPath());
 
         $file->filetype = $filetype;
         $file->mimetype = $mimetype;

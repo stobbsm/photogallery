@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
@@ -60,7 +61,7 @@ class File extends Model
     */
     public function getContents()
     {
-        return file_get_contents($this->fullpath);
+        return Storage::disk('gallery')->get($this->fullpath);
     }
     
     /**
@@ -82,6 +83,16 @@ class File extends Model
     }
 
     /**
+     * getFullPath returns the full local storage path
+     * 
+     * @return string Local storage path of the file
+     */
+    public function getFullPath()
+    {
+        return Storage::disk('gallery')->getDriver()->getAdapter()->getPathPrefix() . '/' . $this->fullpath;
+    }
+
+    /**
     * thumbnail returns the content of the given file after generating a thumbnail (if it needs to).
     *
     * @return string|bool Contents of the file or false on failure
@@ -94,9 +105,10 @@ class File extends Model
             if (!file_exists($cache_path)) {
                 mkdir($cache_path);
             }
+            $fullpath = $this->getFullPath();
             $max_width = env('THUMBNAIL_SIZE', 256);
             $max_height = env('THUMBNAIL_SIZE', 256);
-            list($width, $height) = getimagesize($this->fullpath);
+            list($width, $height) = getimagesize($fullpath);
             $ratio = $width / $height;
         
             if ($max_width/$max_height > $ratio) {
@@ -128,7 +140,7 @@ class File extends Model
                     throw new Exception('Unknown image type: '.$this->mimetype);
                     break;
             }
-            $original = $image_create_func($this->fullpath);
+            $original = $image_create_func($fullpath);
             $tmp = imagecreatetruecolor($new_width, $new_height);
             imagecopyresampled($tmp, $original, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
             

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\File;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateChecksum extends Command
 {
@@ -41,7 +42,7 @@ class UpdateChecksum extends Command
         $id = intval($this->argument('id'));
         $this->line("Updating checksum for $id");
         $file = File::find($id);
-        $hash = hash_file('sha256', $file->fullpath);
+        $hash = hash_file('sha256', $file->getFullPath());
         if ($file->checksum != $hash) {
             $file->checksum = $hash;
             $file->save();

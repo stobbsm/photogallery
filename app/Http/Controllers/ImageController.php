@@ -53,16 +53,16 @@ class ImageController extends Controller
     */
     public function store(Request $request)
     {
-        Log::info("Validated ImageController@store");
         $user = Auth::user();
-        $path = env('GALLERYPATH') . '/' . Storage::disk('gallery')->putFile('uploads', $request->image);
+        $pathPrefix = Storage::disk('gallery')->getDriver()->getAdapter()->getPathPrefix();
+        $path = Storage::disk('gallery')->putFile('uploads', $request->image);
         
         $filename = basename($path);
         $fullpath = $path;
         $filetype = 'file';
-        $mimetype = mime_content_type($path);
-        $size = Storage::disk('gallery')->size('uploads/' . $filename);
-        $checksum = hash_file('sha256', $path);
+        $mimetype = mime_content_type($pathPrefix . $path);
+        $size = Storage::disk('gallery')->size($path);
+        $checksum = hash_file('sha256', $pathPrefix . $path);
 
         $file = File::create([
             'filename' => $filename,

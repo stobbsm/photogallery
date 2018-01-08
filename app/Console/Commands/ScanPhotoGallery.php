@@ -33,6 +33,8 @@ class ScanPhotoGallery extends Command
         $startTime = microtime(true);
         $fileDifference = false;
         $this->line(__('cmdline.title_scan'));
+        $pathPrefix = Storage::disk('gallery')->getDriver()->getAdapter()->getPathPrefix();
+        $this->info('Scanning: ' . $pathPrefix);
         try {
             $mimetypes = config('filetypes');
             if (env('GALLERYPATH', false)) {
@@ -41,7 +43,7 @@ class ScanPhotoGallery extends Command
                 $bar = $this->output->createProgressBar(count($mediaFiles));
                 
                 foreach ($mediaFiles as $file) {
-                    $fullpath = env('GALLERYPATH') . '/' . $file;
+                    $fullpath = $pathPrefix . $file;
                     $filehash = hash_file('sha256', $fullpath);
                     
                     try {
@@ -55,11 +57,11 @@ class ScanPhotoGallery extends Command
                         if(in_array($mimetype, $mimetypes)) {
                             $filename = basename($fullpath);
                             $filetype = filetype($fullpath);
-                            $filesize = filesize($fullpath);
+                            $filesize = Storage::disk('gallery')->size($file);
                             
                             $newfile = File::firstOrNew([
                                 'filename' => $filename,
-                                'fullpath' =>$fullpath,
+                                'fullpath' =>$file,
                                 'filetype' => $filetype,
                                 'mimetype' => $mimetype,
                                 'size' => $filesize,

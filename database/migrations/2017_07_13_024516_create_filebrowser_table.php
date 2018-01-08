@@ -16,13 +16,12 @@ class CreateFilebrowserTable extends Migration
         Schema::create('files', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('filename');
-            $table->string('fullpath', 255);
+            $table->string('fullpath');
             $table->string('filetype');
             $table->string('mimetype');
             $table->bigInteger('size')->unsigned()->nullable();
             $table->timestamps();
-            
-            $table->unique('fullpath');
+        
             $table->index('filename');
             $table->index('mimetype');
         });
