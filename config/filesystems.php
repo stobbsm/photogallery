@@ -53,6 +53,11 @@ return [
             'root' => env('GALLERYPATH', storage_path('gallery')),
         ],
 
+        'uploads' => [
+            'driver' => 'local',
+            'root' => env('GALLERYPATH', storage_path('gallery') . '/uploads'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

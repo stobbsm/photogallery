@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Providers\FileBrowserServiceProvider;
 use App\File;
+use Illuminate\Support\Facades\Storage;
 
 class ScanPhotoGallery extends Command
 {
@@ -32,13 +33,15 @@ class ScanPhotoGallery extends Command
         $fileDifference = false;
         $this->line(__('cmdline.title_scan'));
         try {
+            $mimetypes = config('filetypes');
             if (env('GALLERYPATH', false)) {
                 $this->filebrowser = resolve('FileBrowser');
-                $mediaFiles = $this->filebrowser->SearchMany('mimetype', config('filetypes'))->Flatten(false)->get();
+                $mediaFiles = Storage::disk('gallery')->allFiles();
                 $bar = $this->output->createProgressBar(count($mediaFiles));
                 
                 foreach ($mediaFiles as $file) {
-                    $filehash = hash_file('sha256', $file['fullpath']);
+                    $fullpath = ENV('GALLERYPATH') . '/' . $file;
+                    $filehash = hash_file('sha256', $fullpath);
                     
                     try {
                         $oldfile = File::where('checksum', $filehash)->first();
@@ -47,16 +50,22 @@ class ScanPhotoGallery extends Command
                             throw new \Exception(__('cmdline.status_scan_filenotexist'), E_NOTICE);
                         }
                     } catch (\Exception $e) {
-                        
-                        $newfile = File::firstOrNew([
-                            'filename' => $file['name'],
-                            'fullpath' => $file['fullpath'],
-                            'filetype' => $file['filetype'],
-                            'mimetype' => $file['mimetype'],
-                            'size' => $file['size'],
-                            'checksum' => $filehash
-                        ]);
-                        $newfile->save();
+                        $mimetype = mime_content_type($fullpath);
+                        if(in_array($mimetype, $mimetypes)) {
+                            $filename = basename($fullpath);
+                            $filetype = filetype($fullpath);
+                            $filesize = filesize($fullpath);
+                            
+                            $newfile = File::firstOrNew([
+                                'filename' => $filename,
+                                'fullpath' =>$fullpath,
+                                'filetype' => $filetype,
+                                'mimetype' => $mimetype,
+                                'size' => $filesize,
+                                'checksum' => $filehash
+                            ]);
+                            $newfile->save();
+                        }
                     }
                     $bar->advance();
                 }

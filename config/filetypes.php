@@ -12,6 +12,7 @@ return [
   | Image mimetypes
   */
   'image/jpeg',
+  'image/jpg',
   'image/png',
   'image/bmp',
   'image/gif',
