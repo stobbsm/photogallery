@@ -41,7 +41,7 @@ class ScanPhotoGallery extends Command
                 $bar = $this->output->createProgressBar(count($mediaFiles));
                 
                 foreach ($mediaFiles as $file) {
-                    $fullpath = ENV('GALLERYPATH') . '/' . $file;
+                    $fullpath = env('GALLERYPATH') . '/' . $file;
                     $filehash = hash_file('sha256', $fullpath);
                     
                     try {

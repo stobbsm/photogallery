@@ -55,7 +55,7 @@ class ImageController extends Controller
     {
         Log::info("Validated ImageController@store");
         $user = Auth::user();
-        $path = ENV('GALLERYPATH') . '/' . Storage::disk('gallery')->putFile('uploads', $request->image);
+        $path = env('GALLERYPATH') . '/' . Storage::disk('gallery')->putFile('uploads', $request->image);
         
         $filename = basename($path);
         $fullpath = $path;
