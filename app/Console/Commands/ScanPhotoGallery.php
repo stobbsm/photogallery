@@ -30,6 +30,7 @@ class ScanPhotoGallery extends Command
     */
     public function handle()
     {
+        $startTime = microtime(true);
         $fileDifference = false;
         $this->line(__('cmdline.title_scan'));
         try {
@@ -78,6 +79,9 @@ class ScanPhotoGallery extends Command
             $this->error(__('cmdline.scanerror', [ "message" => $e->getMessage() ]));
             exit($e->getCode());
         }
+        $endTime = microtime(true);
+        $runTime = $endTime - $startTime;
+        $this->info("Done in $runTime(s)");
     }
 }
     
