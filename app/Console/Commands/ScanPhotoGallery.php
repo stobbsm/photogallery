@@ -71,7 +71,7 @@ class ScanPhotoGallery extends Command
                     $bar->advance();
                 }
             } else {
-                throw new \Exception(__('cmdline.galleryerror'), E_NOTICE);
+                throw new \Exception('GALLERYPATH not set', E_NOTICE);
             }
             $bar->finish();
             $this->line(" Done!");
