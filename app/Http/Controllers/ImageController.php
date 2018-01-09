@@ -216,17 +216,27 @@ class ImageController extends Controller
      */
     public function notitle()
     {
-        $files = File::all()->reject(function ($file) {
+        /*$files = File::all()->reject(function ($file) {
             return !$file->isUnamed();
-        });
+        });*/
+        $query = DB::table('files')
+            ->select('files.id')
+            ->leftJoin('fileinfo', 'files.id', '=', 'fileinfo.id')
+            ->whereRaw('fileinfo.id is null')
+            ->limit(9);
+            
+        $rawsql = $query->toSql();
+        //Log::info($query->toSql());
+        $files = $query->get();
 
+        //Log::info(DB::getQueryLog());
         $ids = [];
         foreach($files as $file) {
             array_push($ids, $file->id);
         }
 
         $ids = array_slice($ids, 0, 9);
-        //$files = File::whereIn('id', $ids)->get();
+        $files = File::whereIn('id', $ids)->get();
         return view('gallery.images', ["media" => $files]);
     }
 }
