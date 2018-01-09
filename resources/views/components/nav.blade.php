@@ -19,7 +19,7 @@
                 @include('components.nav_item', ['url' => action('ImageController@index'), 'name' => "Gallery"])
                 @include('components.nav_item', ['url' => action('TagController@index'), 'name' => "Browse"])
                 @include('components.nav_item', ['url' => action('ImageController@create'), 'name' => "Upload Image"])
-                @include('components.nav_item', ['url' => action('ImageController@noinfo'), 'name' => "Tag Files"])
+                @include('components.nav_item', ['url' => action('ImageController@notitle'), 'name' => "Tag Files"])
                 @endif
             </ul>
             

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class ImageController extends Controller
 {
@@ -209,18 +210,14 @@ class ImageController extends Controller
     }
 
     /**
-     * Fetch all the files that are missing either a title or tags for editing.
+     * Fetch all the files that are missing either a title for editing.
      * 
      * @return \Illuminate\Http\response
      */
-    public function noinfo()
+    public function notitle()
     {
-        $files = File::all();
-        $files = $files->reject(function ($file) {
+        $files = File::all()->reject(function ($file) {
             return !$file->isUnamed();
-        });
-        $files = $files->reject(function ($file) {
-            return !$file->isUnTagged();
         });
 
         $ids = [];
@@ -229,7 +226,7 @@ class ImageController extends Controller
         }
 
         $ids = array_slice($ids, 0, 9);
-        $files = File::whereIn('id', $ids)->get();
+        //$files = File::whereIn('id', $ids)->get();
         return view('gallery.images', ["media" => $files]);
     }
 }

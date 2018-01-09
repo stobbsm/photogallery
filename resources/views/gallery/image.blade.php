@@ -1,5 +1,7 @@
 @extends('gallery.base')
-@section('title', $image->fileinfo->title)
+@if(isset($image->fileinfo))
+    @section('title', $image->fileinfo->title)
+@endif
 
 @section('image')
 <div class="row">

@@ -30,7 +30,7 @@ Route::get('/gallery', 'ImageController@index');
 Route::get('/image/{id}/fetch', 'ImageController@fetch')->name('image.fetch');
 Route::get('/image/{id}/download', 'ImageController@download')->name('image.download');
 Route::get('/image/{id}/thumbnail', 'ImageController@thumbnail')->name('image.thumbnail');
-Route::get('/image/unfiled', 'ImageController@noinfo')->name('image.noinfo');
+Route::get('/image/untitled', 'ImageController@notitle')->name('image.notitle');
 
 Route::resources([
   'users' => 'UserController',
