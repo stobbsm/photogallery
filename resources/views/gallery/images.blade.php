@@ -3,7 +3,9 @@
 @section('title', __('gallery.title_all_images'))
 
 @section('image')
+@if(method_exists($media, 'links'))
 {{ $media->links('components.paginate') }}
+@endif
 @if($media->isEmpty())
 <div class="row d-flex justify-content-center">
     <p class="text-light w-75 border rounded text-center p-2 bg-secondary">No Images available</p>

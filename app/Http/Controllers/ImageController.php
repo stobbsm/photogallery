@@ -215,20 +215,21 @@ class ImageController extends Controller
      */
     public function noinfo()
     {
-        $noTitle = [];
-        $noTags = [];
-        foreach(File::with('fileinfo')->with('tags')->get() as $file) {
-            if($file->isUnamed()) {
-                array_push($noTitle, $file->id);
-            }
+        $files = File::all();
+        $files = $files->reject(function ($file) {
+            return !$file->isUnamed();
+        });
+        $files = $files->reject(function ($file) {
+            return !$file->isUnTagged();
+        });
 
-            if($file->isUnTagged()) {
-                array_push($noTags, $file->id);
-            }
+        $ids = [];
+        foreach($files as $file) {
+            array_push($ids, $file->id);
         }
-        $ids = array_unique(array_merge($noTitle, $noTags));
-        $files = File::whereIn('id', $ids)->paginate(9);
 
+        $ids = array_slice($ids, 0, 9);
+        $files = File::whereIn('id', $ids)->get();
         return view('gallery.images', ["media" => $files]);
     }
 }
