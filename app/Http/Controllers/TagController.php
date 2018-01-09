@@ -47,7 +47,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        $files = $tag->files()->orderBy('title')->get();
+        $files = $tag->files()->orderBy('title')->paginate(9);
         return view('tags.images', ['files' => $files, 'tagname' => $tag->tag]);
     }
 
