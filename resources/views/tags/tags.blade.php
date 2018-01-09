@@ -9,7 +9,7 @@
     <hr class="my-2">
     <p>Or click the button to view untagged or untitled files</p>
     <p class="lead">
-        <a class="btn btn-primary btn-lg" href="{{ action('ImageController@noinfo') }}">Tag Files</a>
+        <a class="btn btn-primary btn-lg" href="{{ action('ImageController@notags') }}">Tag Files</a>
     </p>
 </div>
 

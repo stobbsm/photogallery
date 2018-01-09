@@ -210,33 +210,46 @@ class ImageController extends Controller
     }
 
     /**
-     * Fetch all the files that are missing either a title for editing.
+     * Fetch all the files that are missing a title for editing.
      * 
      * @return \Illuminate\Http\response
      */
     public function notitle()
     {
-        /*$files = File::all()->reject(function ($file) {
-            return !$file->isUnamed();
-        });*/
-        $query = DB::table('files')
+        $files = DB::table('files')
             ->select('files.id')
-            ->leftJoin('fileinfo', 'files.id', '=', 'fileinfo.id')
+            ->leftJoin('fileinfo', 'files.id', '=', 'fileinfo.file_id')
             ->whereRaw('fileinfo.id is null')
-            ->limit(9);
-            
-        $rawsql = $query->toSql();
-        //Log::info($query->toSql());
-        $files = $query->get();
+            ->limit(9)
+            ->get();
 
-        //Log::info(DB::getQueryLog());
         $ids = [];
         foreach($files as $file) {
             array_push($ids, $file->id);
         }
-
-        $ids = array_slice($ids, 0, 9);
         $files = File::whereIn('id', $ids)->get();
-        return view('gallery.images', ["media" => $files]);
+        return view('gallery.images', ['media' => $files]);
+    }
+
+    /**
+     * Fetch all the files that are missing tags.
+     * 
+     * @return \Illuminate\Http\response
+     */
+    public function notags()
+    {
+        $files = DB::table('files')
+            ->select('files.id')
+            ->leftJoin('file_tag', 'files.id', '=', 'file_tag.file_id')
+            ->whereRaw('file_tag.tag_id is null')
+            ->limit(9)
+            ->get();
+
+        $ids = [];
+        foreach($files as $file) {
+            array_push($ids, $file->id);
+        }
+        $files = File::whereIn('id', $ids)->get();
+        return view('gallery.images', ['media' => $files]);
     }
 }
