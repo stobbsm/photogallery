@@ -124,14 +124,21 @@ class ImageController extends Controller
         $file = File::find($id);
         $user = Auth::user();
         $title = ($request->title == null ? $file->fileinfo->title : $request->title);
-        $desc = $request->desc;
+        $desc = ($request->desc == null ? $file->fileinfo->desc : $request->desc);
         $tags = $request->tags;
 
-        $file->fileinfo()->create([
-            'title' => $title,
-            'desc' => $desc,
-            'user_id' => $user->id,
-        ]);
+        if($file->isUnamed()){
+            $file->fileinfo()->create([
+                'title' => $title,
+                'desc' => $desc,
+                'user_id' => $user->id,
+            ]);
+        } else {
+            $fileinfo = $file->fileinfo;
+            $fileinfo->title = $title;
+            $fileinfo->desc = $desc;
+            $fileinfo->update();
+        }
 
         $tags = str_replace(' ', '', $tags);
         $tagArray = explode(',', $tags);
