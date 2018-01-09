@@ -217,7 +217,7 @@ class ImageController extends Controller
     {
         $noTitle = [];
         $noTags = [];
-        foreach(File::all() as $file) {
+        foreach(File::with('fileinfo')->with('tags')->get() as $file) {
             if($file->isUnamed()) {
                 array_push($noTitle, $file->id);
             }
