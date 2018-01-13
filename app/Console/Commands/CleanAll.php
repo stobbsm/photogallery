@@ -1,10 +1,30 @@
 <?php
+/**
+ * Contains the CleanAll artisan command.
+ *
+ * PHP Version 7.1
+ *
+ * @category ConsoleCommand
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\File;
 
+/**
+ * CleanAll artisan command.
+ *
+ * @category Class
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 class CleanAll extends Command
 {
     /**
@@ -40,14 +60,17 @@ class CleanAll extends Command
     {
         $this->info("Building filelist in the imagecache...\n");
         
-        $inUseMap = array();
+        $inUseMap = [];
         $files = File::all();
         
         $cleanedCount=0;
         $cleanedSize=0;
         
         // Get current list of files in the imagecache.
-        $thumbnail_filelist = array_diff(scandir(storage_path() . "/imagecache"), ['..', '.']);
+        $thumbnail_filelist = array_diff(
+            scandir(storage_path() . "/imagecache"),
+            ['..', '.']
+        );
         foreach ($thumbnail_filelist as $thumbnail) {
             $inUseMap[$thumbnail] = false;
         }

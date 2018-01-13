@@ -66,7 +66,7 @@ class File extends Model
     
     /**
      * isUnamed determines if the file's fileinfo has a title element set
-     * 
+     *
      * @return bool true|false
      */
     public function isUnamed()
@@ -84,7 +84,7 @@ class File extends Model
 
     /**
      * getFullPath returns the full local storage path
-     * 
+     *
      * @return string Local storage path of the file
      */
     public function getFullPath()
@@ -149,4 +149,3 @@ class File extends Model
         return file_get_contents($cache_file);
     }
 }
-        

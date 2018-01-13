@@ -16,13 +16,13 @@ class GuestController extends Controller
     {
         if (Auth::check()) {
             return redirect('/home');
-          }
-          return redirect('/welcome');
+        }
+        return redirect('/welcome');
     }
 
     /**
      * Show the welcome page
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function welcome()

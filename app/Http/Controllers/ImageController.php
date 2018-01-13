@@ -1,4 +1,15 @@
 <?php
+/**
+ * Contains the ImageController class for controlling images.
+ *
+ * PHP Version 7.1
+ *
+ * @category HttpRouteController
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 
 namespace App\Http\Controllers;
 
@@ -13,11 +24,25 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * The ImageController class.
+ *
+ * @category Class
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 class ImageController extends Controller
 {
     protected $dirMode=0775;
     protected $mkdirRecursive=true;
 
+    /**
+     * Class constructor
+     *
+     * Sets the middleware of the class to the 'auth' middleware group.
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -49,13 +74,17 @@ class ImageController extends Controller
     /**
     * Store a newly created resource in storage.
     *
-    * @param  \Illuminate\Http\Request  $request
+    * @param \Illuminate\Http\Request $request The request object.
+    *
     * @return \Illuminate\Http\Response
     */
     public function store(Request $request)
     {
         $user = Auth::user();
-        $pathPrefix = Storage::disk('gallery')->getDriver()->getAdapter()->getPathPrefix();
+        $pathPrefix = Storage::disk('gallery')
+            ->getDriver()
+            ->getAdapter()
+            ->getPathPrefix();
         $path = Storage::disk('gallery')->putFile('uploads', $request->image);
         
         $filename = basename($path);
@@ -65,14 +94,16 @@ class ImageController extends Controller
         $size = Storage::disk('gallery')->size($path);
         $checksum = hash_file('sha256', $pathPrefix . $path);
 
-        $file = File::create([
-            'filename' => $filename,
-            'fullpath' => $path,
-            'filetype' => $filetype,
-            'mimetype' => $mimetype,
-            'size' => $size,
-            'checksum' => $checksum,
-        ]);
+        $file = File::create(
+            [
+                'filename' => $filename,
+                'fullpath' => $path,
+                'filetype' => $filetype,
+                'mimetype' => $mimetype,
+                'size' => $size,
+                'checksum' => $checksum,
+            ]
+        );
 
         $file->save();
 
@@ -82,7 +113,8 @@ class ImageController extends Controller
     /**
     * Display the specified resource.
     *
-    * @param  int $image
+    * @param int $image The ID of the image to show
+    *
     * @return \Illuminate\Http\Response
     */
     public function show($image)
@@ -95,7 +127,8 @@ class ImageController extends Controller
     * Show the form for editing the specified resource.
     * This is for updating tag data and user generated metadata.
     *
-    * @param  int $image
+    * @param int $image The ID of the image edit.
+    *
     * @return \Illuminate\Http\Response
     */
     public function edit($image)
@@ -105,7 +138,7 @@ class ImageController extends Controller
 
         // Move tags into an array
         $atags = [];
-        foreach($tags as $tag) {
+        foreach ($tags as $tag) {
             array_push($atags, $tag->tag);
         }
 
@@ -115,24 +148,29 @@ class ImageController extends Controller
     /**
     * Update the specified resource in storage.
     *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  int  $id
+    * @param \Illuminate\Http\Request $request The request object
+    * @param integer                  $id      The ID of the image to update.
+    *
     * @return \Illuminate\Http\Response
     */
     public function update(Request $request, $id)
     {
         $file = File::find($id);
         $user = Auth::user();
-        $title = ($request->title == null ? $file->fileinfo->title : $request->title);
-        $desc = ($request->desc == null ? $file->fileinfo->desc : $request->desc);
+        $title = ($request->title == null ?
+            $file->fileinfo->title : $request->title);
+        $desc = ($request->desc == null ?
+            $file->fileinfo->desc : $request->desc);
         $tags = $request->tags;
 
-        if($file->isUnamed()){
-            $file->fileinfo()->create([
-                'title' => $title,
-                'desc' => $desc,
-                'user_id' => $user->id,
-            ]);
+        if ($file->isUnamed()) {
+            $file->fileinfo()->create(
+                [
+                    'title' => $title,
+                    'desc' => $desc,
+                    'user_id' => $user->id,
+                ]
+            );
         } else {
             $fileinfo = $file->fileinfo;
             $fileinfo->title = $title;
@@ -146,7 +184,7 @@ class ImageController extends Controller
         $tagMdlArray = [];
 
         // Add new tags
-        foreach($tagArray as $addTag) {
+        foreach ($tagArray as $addTag) {
             Log::info("Creating new tag: $addTag");
             $tag = Tag::firstOrCreate(['tag' => strtolower($addTag)]);
             array_push($tagMdlArray, $tag->id);
@@ -160,7 +198,8 @@ class ImageController extends Controller
     /**
     * Remove the specified resource from storage.
     *
-    * @param  \App\File  $file
+    * @param \App\File $file The File model that needs to be removed.
+    *
     * @return \Illuminate\Http\Response
     */
     public function destroy(File $file)
@@ -171,7 +210,8 @@ class ImageController extends Controller
     /**
     * Fetch the contents of the image, suitable for use in a 'src' attribute.
     *
-    * @param int $id
+    * @param int $id The ID of the image to fetch
+    *
     * @return \Illuminate\Http\response
     */
     public function fetch($id)
@@ -184,15 +224,18 @@ class ImageController extends Controller
     /**
     * Fetch the contents of the image, as a file download.
     *
-    * @param int $id
+    * @param integer $id The ID of the image to download
+    *
     * @return \Illuminate\Http\response
     */
     public function download($id)
     {
         $file = File::find($id);
+        $filename = $file->fileinfo->title . '_' . $file->filename;
+        $filename = str_replace(' ', '_', $filename);
         return response($file->getContents())->
         header('Content-Description', 'File Transfer')->
-        header('Content-Disposition', "attachment; filename=" . str_replace(' ', '_', $file->fileinfo->title . '_' . $file->filename))->
+        header('Content-Disposition', "attachment; filename=" . $filename)->
         header('Content-Transfer-Encoding', 'binary')->
         header('Connection', 'Keep-Alive')->
         header('Content-Type', 'application/octet-stream');
@@ -201,7 +244,8 @@ class ImageController extends Controller
     /**
     * Fetch the thumbnail of the image, suitable for use in a 'src' attribute.
     *
-    * @param int $id
+    * @param integer $id The ID of the image to get the thumbnail for.
+    *
     * @return \Illuminate\Http\response
     */
     public function thumbnail($id)
@@ -210,15 +254,14 @@ class ImageController extends Controller
         if ($file->size > 0) {
             return response($file->thumbnail())->
             header('Content-Type', $file->mimetype);
-        }
-        else {
+        } else {
             abort(404);
         }
     }
 
     /**
      * Fetch all the files that are missing a title for editing.
-     * 
+     *
      * @return \Illuminate\Http\response
      */
     public function notitle()
@@ -231,7 +274,7 @@ class ImageController extends Controller
             ->get();
 
         $ids = [];
-        foreach($files as $file) {
+        foreach ($files as $file) {
             array_push($ids, $file->id);
         }
         $files = File::whereIn('id', $ids)->get();
@@ -240,7 +283,7 @@ class ImageController extends Controller
 
     /**
      * Fetch all the files that are missing tags.
-     * 
+     *
      * @return \Illuminate\Http\response
      */
     public function notags()
@@ -253,7 +296,7 @@ class ImageController extends Controller
             ->get();
 
         $ids = [];
-        foreach($files as $file) {
+        foreach ($files as $file) {
             array_push($ids, $file->id);
         }
         $files = File::whereIn('id', $ids)->get();

@@ -31,4 +31,3 @@ class Fileinfo extends Model
         return $this->hasManyThrough('App\Tag', 'App\File');
     }
 }
-    

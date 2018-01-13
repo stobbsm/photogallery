@@ -1,4 +1,15 @@
 <?php
+/**
+ * Contains the ScanPhotoGallery command.
+ * 
+ * PHP Version 7.1
+ * 
+ * @category ConsoleCommand
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 
 namespace App\Console\Commands;
 
@@ -7,12 +18,21 @@ use App\Providers\FileBrowserServiceProvider;
 use App\File;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Contains the ScanPhotoGallery command.
+ * 
+ * @category Class
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 class ScanPhotoGallery extends Command
 {
     /**
     * The name and signature of the console command.
-    * @var string
     *
+    * @var string
     */
     protected $signature = 'photogallery:scan';
     
@@ -33,7 +53,11 @@ class ScanPhotoGallery extends Command
         $startTime = microtime(true);
         $fileDifference = false;
         $this->line(__('cmdline.title_scan'));
-        $pathPrefix = Storage::disk('gallery')->getDriver()->getAdapter()->getPathPrefix();
+        $pathPrefix = Storage::disk('gallery')
+            ->getDriver()
+            ->getAdapter()
+            ->getPathPrefix();
+        
         $this->info('Scanning: ' . $pathPrefix);
         try {
             $mimetypes = config('filetypes');
@@ -50,23 +74,28 @@ class ScanPhotoGallery extends Command
                         $oldfile = File::where('checksum', $filehash)->first();
                         
                         if ($oldfile == null) {
-                            throw new \Exception(__('cmdline.status_scan_filenotexist'), E_NOTICE);
+                            throw new \Exception(
+                                __('cmdline.status_scan_filenotexist'),
+                                E_NOTICE
+                            );
                         }
                     } catch (\Exception $e) {
                         $mimetype = mime_content_type($fullpath);
-                        if(in_array($mimetype, $mimetypes)) {
+                        if (in_array($mimetype, $mimetypes)) {
                             $filename = basename($fullpath);
                             $filetype = filetype($fullpath);
                             $filesize = Storage::disk('gallery')->size($file);
                             
-                            $newfile = File::firstOrNew([
-                                'filename' => $filename,
-                                'fullpath' =>$file,
-                                'filetype' => $filetype,
-                                'mimetype' => $mimetype,
-                                'size' => $filesize,
-                                'checksum' => $filehash
-                            ]);
+                            $newfile = File::firstOrNew(
+                                [
+                                    'filename' => $filename,
+                                    'fullpath' =>$file,
+                                    'filetype' => $filetype,
+                                    'mimetype' => $mimetype,
+                                    'size' => $filesize,
+                                    'checksum' => $filehash
+                                ]
+                            );
                             $newfile->save();
                         }
                     }
@@ -86,4 +115,3 @@ class ScanPhotoGallery extends Command
         $this->info("Done in $runTime(s)");
     }
 }
-    

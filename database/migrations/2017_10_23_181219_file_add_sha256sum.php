@@ -13,7 +13,7 @@ class FileAddSha256sum extends Migration
     */
     public function up()
     {
-        Schema::table('files', function(Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->char('checksum', 64)->nullable();
             $table->unique('checksum');
         });
@@ -26,7 +26,7 @@ class FileAddSha256sum extends Migration
     */
     public function down()
     {
-        Schema::table('files', function(Blueprint $table) {
+        Schema::table('files', function (Blueprint $table) {
             $table->dropColumn('checksum');
         });
     }

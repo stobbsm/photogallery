@@ -1,9 +1,29 @@
 <?php
+/**
+ * Contains the PhotoGallery command.
+ * 
+ * PHP Version 7.1
+ * 
+ * @category Command
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+/**
+ * Contains the Photogallery command.
+ * 
+ * @category Class
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 class PhotoGallery extends Command
 {
     /**

@@ -16,12 +16,13 @@ class FileBrowserServiceProvider extends ServiceProvider
      */
     public function register()
     {
-      $this->app->bind('FileBrowser', function ($app) {
-        return new FileBrowser(env('GALLERYPATH'));
-      });
+        $this->app->bind('FileBrowser', function ($app) {
+            return new FileBrowser(env('GALLERYPATH'));
+        });
     }
 
-    public function provides() {
-      return [FileBrowser::class];
+    public function provides()
+    {
+        return [FileBrowser::class];
     }
 }

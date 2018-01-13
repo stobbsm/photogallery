@@ -1,10 +1,30 @@
 <?php
+/**
+ * Contains the TagController class for controlling tagging.
+ *
+ * PHP Version 7.1
+ *
+ * @category HttpRouteController
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 
 namespace App\Http\Controllers;
 
 use App\Tag;
 use Illuminate\Http\Request;
 
+/**
+ * TagController Class
+ *
+ * @category Class
+ * @package  Photogallery
+ * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * @link     https://github.com/stobbsm/photogallery
+ */
 class TagController extends Controller
 {
     /**
@@ -31,7 +51,8 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request The request object
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,7 +63,8 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tag  $tag
+     * @param \App\Tag $tag The required Tag model
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Tag $tag)
@@ -54,7 +76,8 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Tag  $tag
+     * @param \App\Tag $tag The required Tag model
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Tag $tag)
@@ -65,8 +88,9 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tag  $tag
+     * @param \Illuminate\Http\Request $request The request object
+     * @param \App\Tag                 $tag     The required Tag model
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Tag $tag)
@@ -77,7 +101,8 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Tag  $tag
+     * @param \App\Tag $tag The required Tag model
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tag $tag)
