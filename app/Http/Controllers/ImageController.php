@@ -7,8 +7,8 @@
  * @category HttpRouteController
  * @package  Photogallery
  * @author   Matthew Stobbs <matthew@sproutingcommunications.com>
- * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv3
- * @link     https://github.com/stobbsm/photogallery
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPLv
+ * @link     https://github.com/stobbsm/photogallery3
  */
 
 namespace App\Http\Controllers;
@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreImage;
 
 /**
  * The ImageController class.
@@ -78,7 +79,7 @@ class ImageController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function store(Request $request)
+    public function store(StoreImage $request)
     {
         $user = Auth::user();
         $pathPrefix = Storage::disk('gallery')
@@ -86,13 +87,13 @@ class ImageController extends Controller
             ->getAdapter()
             ->getPathPrefix();
         $path = Storage::disk('gallery')->putFile('uploads', $request->image);
-        
+     
+        $checksum = hash_file('sha256', $pathPrefix . $path);
         $filename = basename($path);
         $fullpath = $path;
         $filetype = 'file';
         $mimetype = mime_content_type($pathPrefix . $path);
         $size = Storage::disk('gallery')->size($path);
-        $checksum = hash_file('sha256', $pathPrefix . $path);
 
         $file = File::create(
             [
@@ -102,6 +103,7 @@ class ImageController extends Controller
                 'mimetype' => $mimetype,
                 'size' => $size,
                 'checksum' => $checksum,
+                'user_id' => $user->id,
             ]
         );
 
@@ -192,7 +194,7 @@ class ImageController extends Controller
         
         $file->tags()->sync($tagMdlArray);
         
-        return view('gallery.image', ["image" => $file]);
+        return redirect(action('ImageController@show', ['id' => $file->id]));
     }
     
     /**
@@ -204,7 +206,10 @@ class ImageController extends Controller
     */
     public function destroy(File $file)
     {
-        //
+        $path = $file->fullpath;
+        Storage::disk('gallery')->delete($path);
+
+        return redirect(action('ImageController@index'));
     }
     
     /**

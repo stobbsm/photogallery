@@ -1,6 +1,6 @@
-<div class="container sticky-top">
+<div class="container-fluid sticky-top">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ url('/welcome') }}">{{ env('APP_NAME') }} <span class="badge badge-secondary">Beta</span></a>
+        <a class="navbar-brand" href="{{ url('/') }}">{{ env('APP_NAME') }} <span class="badge badge-secondary">Beta</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#responsiveHidden" aria-controls="responsiveHidden" aria-expanded="false" aria-label="Toggle Navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,6 +20,7 @@
                     @include('components.nav_item', ['url' => action('ImageController@create'), 'name' => 'Upload Image'])
                     @include('components.nav_item', ['url' => action('ImageController@notitle'), 'name' => 'Title Files'])
                     @include('components.nav_item', ['url' => action('ImageController@notags'), 'name' => 'Tag Files'])
+                    @include('components.nav_item', ['url' => url('/logout'), 'name' => 'Logout'])
                 @endif
             </ul>
             

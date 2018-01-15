@@ -1,9 +1,23 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono');
 
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
+
+body {
+    margin-bottom: $spacer * 2;
+    padding-bottom: $spacer * 2;
+}
+
+footer {
+    font-size: $font-size-base * 0.75;
+    .container-fluid {
+        .row {
+            background-color: gray('100');
+        }
+    }
+}

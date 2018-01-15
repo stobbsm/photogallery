@@ -53,11 +53,6 @@ return [
             'root' => env('GALLERYPATH', storage_path('gallery')),
         ],
 
-        'uploads' => [
-            'driver' => 'local',
-            'root' => env('GALLERYPATH', storage_path('gallery') . '/uploads'),
-        ],
-
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
@@ -65,14 +60,10 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_KEY'),
-            'secret' => env('AWS_SECRET'),
-            'region' => env('AWS_REGION'),
-            'bucket' => env('AWS_BUCKET'),
+        'tmp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/tmp'),
         ],
-
     ],
 
 ];

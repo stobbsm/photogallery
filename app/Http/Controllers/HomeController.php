@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\File;
+use App\Tag;
+use App\Fileinfo;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +28,33 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $files = File::all()->count();
+        $tags = Tag::all()->count();
+        $untagged = DB::table('files')
+            ->select('files.id')
+            ->leftJoin('file_tag', 'files.id', '=', 'file_tag.file_id')
+            ->whereRaw('file_tag.tag_id is null')
+            ->count();
+        $untitled = DB::table('files')
+            ->select('files.id')
+            ->leftJoin('fileinfo', 'files.id', '=', 'fileinfo.file_id')
+            ->whereRaw('fileinfo.id is null')
+            ->count();
+        $userid = Auth::user()->id;
+        $userfiles = DB::table('files')
+            ->select('files.id')
+            ->where('files.user_id', '=', $userid)
+            ->count();
+
+        return view(
+            'home', 
+            [
+                'files' => $files,
+                'tags' => $tags,
+                'untagged' => $untagged,
+                'untitled' => $untitled,
+                'userfiles' => $userfiles,
+            ]
+        );
     }
 }

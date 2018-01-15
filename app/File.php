@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class File extends Model
 {
     protected $fillable = [
-        'filename', 'fullpath', 'filetype', 'mimetype', 'size', 'checksum'
+        'filename', 'fullpath', 'filetype', 'mimetype', 'size', 'checksum', 'user_id'
     ];
     
     /**
