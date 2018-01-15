@@ -7,20 +7,42 @@
         
         <div class="collapse navbar-collapse" id="responsiveHidden">
             
-            <ul class="navbar-nav mr-0 ml-auto">
+            <ul class="navbar-nav mr-auto">
                 @if (!Auth::check())
                     @include('components.nav_item', ['url' => url('/login'), 'name' => 'Login'])
                     @include('components.nav_item', ['url' => url('/register'), 'name' => 'Register'])
                 @else
-                    @section('navbar')
-                
-                    @show
-                    @include('components.nav_item', ['url' => action('ImageController@index'), 'name' => 'Gallery'])
-                    @include('components.nav_item', ['url' => action('TagController@index'), 'name' => 'Browse'])
-                    @include('components.nav_item', ['url' => action('ImageController@create'), 'name' => 'Upload Image'])
-                    @include('components.nav_item', ['url' => action('ImageController@notitle'), 'name' => 'Title Files'])
-                    @include('components.nav_item', ['url' => action('ImageController@notags'), 'name' => 'Tag Files'])
-                    @include('components.nav_item', ['url' => url('/logout'), 'name' => 'Logout'])
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarAdminDropdown">
+                            @include('components.nav_item', ['url' => action('UserController@index'), 'name' => 'Users'])
+                            @include('components.nav_item', ['url' => action('UserController@create'), 'name' => 'Add User'])
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarImageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gallery
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarImageDropdown">
+                            @include('components.nav_item', ['url' => action('ImageController@index'), 'name' => 'View'])
+                            @include('components.nav_item', ['url' => action('ImageController@create'), 'name' => 'Upload'])
+                            @include('components.nav_item', ['url' => action('ImageController@notitle'), 'name' => 'Title Files'])
+                            @include('components.nav_item', ['url' => action('ImageController@notags'), 'name' => 'Tag Files'])
+                            @include('components.nav_item', ['url' => action('TagController@index'), 'name' => 'View Tags'])
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarUserMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->email }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarUserMenu">
+                            @include('components.nav_item', ['url' => url('/logout'), 'name' => 'Logout'])
+                        </ul>
+                    </li>
                 @endif
             </ul>
             

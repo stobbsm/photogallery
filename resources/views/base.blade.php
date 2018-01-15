@@ -11,9 +11,10 @@
 </head>
 <body>
     @include('components.nav')
+    @include('components.errors')
     
     @section('content')
-    
+
     @show
     
     @include('components.footer')
