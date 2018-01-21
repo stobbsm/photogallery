@@ -14,7 +14,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Providers\FileBrowserServiceProvider;
 use App\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,24 +29,24 @@ use Illuminate\Support\Facades\Storage;
 class ScanPhotoGallery extends Command
 {
     /**
-    * The name and signature of the console command.
-    *
-    * @var string
-    */
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
     protected $signature = 'photogallery:scan';
     
     /**
-    * The console command description.
-    *
-    * @var string
-    */
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Scan the photogallery and build a database';
     
     /**
-    * Execute the console command.
-    *
-    * @return mixed
-    */
+     * Execute the console command.
+     *
+     * @return mixed
+     */
     public function handle()
     {
         $startTime = microtime(true);
