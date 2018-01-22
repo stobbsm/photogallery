@@ -61,7 +61,6 @@ class ScanPhotoGallery extends Command
         try {
             $mimetypes = config('filetypes');
             if (env('GALLERYPATH', false)) {
-                $this->filebrowser = resolve('FileBrowser');
                 $mediaFiles = Storage::disk('gallery')->allFiles();
                 $bar = $this->output->createProgressBar(count($mediaFiles));
                 
