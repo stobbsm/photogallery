@@ -12,12 +12,10 @@
   "devDependencies": {
     "axios": "^0.15.3",
     "bootstrap": "^4.0.0-beta.3",
-    "cross-env": "^3.2.3",
+    "cross-env": "^3.2.4",
     "jquery": "^3.2.1",
     "laravel-mix": "0.*",
-    "lodash": "^4.17.4"
-  },
-  "dependencies": {
+    "lodash": "^4.17.4",
     "popper.js": "^1.12.9"
   }
 }
