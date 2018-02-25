@@ -20,7 +20,7 @@ return [
   'image/x-quicktime',
   'image/tiff',
   'image/x-tiff',
-  'image/x-xpixmap',
+  'image/x-pixmap',
   'image/xpm',
 
   /*
