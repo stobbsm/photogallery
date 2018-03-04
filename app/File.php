@@ -34,7 +34,7 @@ class File extends Model
     /**
     * File can have only one FileInfo type
     *
-    * @return App\Fileinfo object containg editable metadata
+    * @return App\Fileinfo Object containg editable metadata
     */
     public function fileinfo()
     {
@@ -43,7 +43,17 @@ class File extends Model
             'desc' => "No Description",
         ]);
     }
-        
+
+    /**
+     * A File can be in many different albums
+     *
+     * @return \App\Album[] Collection of Albums
+     */
+    public function albums()
+    {
+        return $this->belongsToMany('App\Album');
+    }
+
     /**
     * File can have many comments
     *
@@ -97,17 +107,17 @@ class File extends Model
     *
     * @return string|bool Contents of the file or false on failure
     */
-    public function thumbnail()
+    public function thumbnail(int $x = 256, int $y = 256)
     {
         $cache_path = storage_path() . '/imagecache';
-        $cache_file = $cache_path . '/' . $this->checksum;
+        $cache_file = $cache_path . '/' . $this->checksum . '-' . $x . 'x' . $y;
         if (!file_exists($cache_file)) {
             if (!file_exists($cache_path)) {
                 mkdir($cache_path);
             }
             $fullpath = $this->getFullPath();
-            $max_width = env('THUMBNAIL_SIZE', 256);
-            $max_height = env('THUMBNAIL_SIZE', 256);
+            $max_width = $x;
+            $max_height = $y;
             list($width, $height) = getimagesize($fullpath);
             $ratio = $width / $height;
         

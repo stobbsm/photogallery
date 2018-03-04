@@ -253,11 +253,11 @@ class ImageController extends Controller
     *
     * @return \Illuminate\Http\response
     */
-    public function thumbnail($id)
+    public function thumbnail(int $id, int $size = 256)
     {
         $file = File::find($id);
         if ($file->size > 0) {
-            return response($file->thumbnail())->
+            return response($file->thumbnail($size, $size))->
             header('Content-Type', $file->mimetype);
         } else {
             abort(404);

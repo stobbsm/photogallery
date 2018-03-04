@@ -32,7 +32,8 @@ class CleanAll extends Command
     *
     * @var string
     */
-    protected $signature = 'photogallery:cleanall';
+    protected $signature = 'photogallery:cleanall
+                                {--force : Remove all files}';
     
     /**
     * The console command description.
@@ -58,7 +59,8 @@ class CleanAll extends Command
     */
     public function handle()
     {
-        $this->info("Building filelist in the imagecache...\n");
+        $force = $this->option('force');
+        $this->info("Building filelist in the imagecache...");
         
         $inUseMap = [];
         $files = File::all();
@@ -72,7 +74,9 @@ class CleanAll extends Command
             ['..', '.']
         );
         foreach ($thumbnail_filelist as $thumbnail) {
-            $inUseMap[$thumbnail] = false;
+            $fileNameParts = explode('-', $thumbnail);
+            $checksum = $fileNameParts[0];
+            $inUseMap[$checksum] = false;
         }
         
         // Using the checksum field, set each found file to true.
@@ -82,7 +86,9 @@ class CleanAll extends Command
         
         // Check each file to make sure it is needed. If not, clean it up.
         foreach ($thumbnail_filelist as $thumbnail) {
-            if (!$inUseMap[$thumbnail]) {
+            $fileNameParts = explode('-', $thumbnail);
+            $checksum = $fileNameParts[0];
+            if (!$inUseMap[$checksum] || $force) {
                 $filename = storage_path() . "/imagecache/" . $thumbnail;
                 $fileStats = stat($filename);
                 $cleanedSize += $fileStats["size"];
@@ -91,7 +97,7 @@ class CleanAll extends Command
             }
         }
         
-        $this->info("Files cleaned: %b\n", $cleanedCount);
-        $this->info("Cleaned size: %bB\n", $cleanedSize);
+        $this->info("Files cleaned: " . $cleanedCount);
+        $this->info("Cleaned size: " . $cleanedSize . 'B');
     }
 }

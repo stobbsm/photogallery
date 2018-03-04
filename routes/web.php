@@ -29,7 +29,7 @@ Route::get('/tools/verifydb', 'Tools@verifydb');
 Route::get('/gallery', 'ImageController@index');
 Route::get('/image/{id}/fetch', 'ImageController@fetch')->name('image.fetch');
 Route::get('/image/{id}/download', 'ImageController@download')->name('image.download');
-Route::get('/image/{id}/thumbnail', 'ImageController@thumbnail')->name('image.thumbnail');
+Route::get('/image/{id}/thumbnail/{size?}', 'ImageController@thumbnail')->name('image.thumbnail');
 Route::get('/image/untitled', 'ImageController@notitle')->name('image.notitle');
 Route::get('/image/untagged', 'ImageController@notags')->name('image.notags');
 
