@@ -115,4 +115,15 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * Update/change the generated encryption key
+     * 
+     * @param   \App\User $user
+     * @return  \Illuminate\Http\Response
+     */
+    public function updateKey(User $user)
+    {
+        $oldkey = gmp_import($user->secret);
+    }
 }

@@ -13,10 +13,13 @@
             @endif
             <div class="row">
                 <div class="col-md-6">
-                    <h5 class="card-title">User Statistics</h5>
+                    <h5 class="card-title">User Information</h5>
                     <ul class="list-group">
                         <li class="list-group-item card-text">
                             Files added by you: {{ $userfiles }}
+                        </li>
+                        <li class="list-group-item card-text">
+                            Encryption Key: {{ $key }}
                         </li>
                     </ul>
                 </div>

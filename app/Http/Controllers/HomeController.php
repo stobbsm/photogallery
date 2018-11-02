@@ -8,6 +8,8 @@ use App\Tag;
 use App\Fileinfo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
@@ -45,6 +47,9 @@ class HomeController extends Controller
             ->select('files.id')
             ->where('files.user_id', '=', $userid)
             ->count();
+        
+        // Test encryption with username
+        $key = Crypt::decryptString(Cookie::get('key'));
 
         return view(
             'home', 
@@ -54,6 +59,7 @@ class HomeController extends Controller
                 'untagged' => $untagged,
                 'untitled' => $untitled,
                 'userfiles' => $userfiles,
+                'key' => $key,
             ]
         );
     }
